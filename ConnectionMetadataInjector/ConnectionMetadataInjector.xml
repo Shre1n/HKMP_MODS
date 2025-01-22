@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConnectionMetadataInjector</name>
+    </assembly>
+    <members>
+        <member name="T:ConnectionMetadataInjector.ConnectionMetadataInjector">
+            <summary>
+            Mod providing the ability to request and read supplemental metadata from custom randomizer items
+            </summary>
+        </member>
+        <member name="M:ConnectionMetadataInjector.ConnectionMetadataInjector.GetVersion">
+            <inheritdoc/>
+        </member>
+        <member name="M:ConnectionMetadataInjector.ConnectionMetadataInjector.#ctor">
+            <summary>
+            Parameterless constructor. Set in-game name so it's shorter
+            </summary>
+        </member>
+        <member name="T:ConnectionMetadataInjector.Conversion.CastingMetadataProperty`3">
+            <summary>
+            Represents a user-requested metadata property on a supplemental metadata interop tag
+            </summary>
+            <typeparam name="TObject">The type of object that this property is defined for (i.e. the type of object that holds the tag)</typeparam>
+            <typeparam name="TSerialized">The type of the value when serialized for interoperability.</typeparam>
+            <typeparam name="TValue">The final value type of the property after conversion.</typeparam>
+            <remarks>
+                Note that there may be some jank when converting from any serialized nullable type to a non-nullable value type.
+                You probably shouldn't be doing that anyway though.
+            </remarks>
+        </member>
+        <member name="P:ConnectionMetadataInjector.Conversion.CastingMetadataProperty`3.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:ConnectionMetadataInjector.Conversion.CastingMetadataProperty`3.#ctor(System.String,ConnectionMetadataInjector.Conversion.IConverter{`1,`2},`2)">
+            <summary>
+            Declares a metadata property with a default value
+            </summary>
+            <param name="name">The property name</param>
+            <param name="valueConverter">A converter which can convert from the serialized type</param>
+            <param name="defaultValue">The default value to use if the tag is not present or doesn't have the requested property</param>
+        </member>
+        <member name="M:ConnectionMetadataInjector.Conversion.CastingMetadataProperty`3.#ctor(System.String,ConnectionMetadataInjector.Conversion.IConverter{`1,`2},System.Func{`0,`2})">
+            <summary>
+            Declares a metadata property with a dynamically defined default value based on the parent of the tag
+            </summary>
+            <param name="name">The property name</param>
+            <param name="valueConverter">A converter which can convert from the serialized type</param>
+            <param name="handleDefaultValue">The handler to discover the default value if the tag is not present or doesn't have the requested property</param>
+        </member>
+        <member name="T:ConnectionMetadataInjector.Conversion.IConverter`2">
+            <summary>
+            A converter between 2 types
+            </summary>
+            <typeparam name="TIn">The source type for conversion</typeparam>
+            <typeparam name="TOut">The target type for conversion</typeparam>
+        </member>
+        <member name="M:ConnectionMetadataInjector.Conversion.IConverter`2.Convert(`0)">
+            <summary>
+            Converts a value of the input type to a value of the output type.
+            </summary>
+            <param name="value">The value to convert</param>
+        </member>
+        <member name="T:ConnectionMetadataInjector.IMetadataProperty`2">
+            <summary>
+            Contravariant interface definition for metadata properties
+            </summary>
+            <typeparam name="TObject">The type of taggable that this property is defined for</typeparam>
+            <typeparam name="TValue">The value type of the property</typeparam>
+        </member>
+        <member name="P:ConnectionMetadataInjector.IMetadataProperty`2.Name">
+            <summary>
+            The metadata property name, as expected in the metadata tag
+            </summary>
+        </member>
+        <member name="T:ConnectionMetadataInjector.InjectedProps">
+            <summary>
+            A class containing built-in metadata properties
+            </summary>
+        </member>
+        <member name="F:ConnectionMetadataInjector.InjectedProps.ItemPoolGroup">
+            <summary>
+            A property representing the pool group of an item
+            </summary>
+        </member>
+        <member name="F:ConnectionMetadataInjector.InjectedProps.LocationPoolGroup">
+            <summary>
+            A property representing the location of a placement
+            </summary>
+        </member>
+        <member name="F:ConnectionMetadataInjector.InjectedProps.ModSource">
+            <summary>
+            A property representing the mod that defined a given taggable
+            </summary>
+        </member>
+        <member name="M:ConnectionMetadataInjector.InjectedProps.GetConnectionProvidedValues``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,ConnectionMetadataInjector.SupplementalMetadata{``0}},ConnectionMetadataInjector.IMetadataProperty{``0,``1})">
+            <summary>
+            Gets connection-provided (i.e. non-default) values for a metadata property
+            </summary>
+            <typeparam name="TObject">The type of object holding the metadata</typeparam>
+            <typeparam name="TValue">The value type of the property</typeparam>
+            <param name="objects">The objects to check for values</param>
+            <param name="metadataSelector">How to get metadata for a given object, usually one of the static methods of <see cref="T:ConnectionMetadataInjector.SupplementalMetadata"/></param>
+            <param name="prop">The property to get values for</param>
+            <returns>A set of unique values provided by connections</returns>
+        </member>
+        <member name="T:ConnectionMetadataInjector.MetadataProperty`2">
+            <summary>
+            Represents a user-requested metadata property on a supplemental metadata interop tag
+            </summary>
+            <typeparam name="TObject">The type of object that this property is defined for (i.e. the type of object that holds the tag)</typeparam>
+            <typeparam name="TValue">The type of the value of the property</typeparam>
+        </member>
+        <member name="P:ConnectionMetadataInjector.MetadataProperty`2.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:ConnectionMetadataInjector.MetadataProperty`2.#ctor(System.String,`1)">
+            <summary>
+            Declares a metadata property with a default value
+            </summary>
+            <param name="name">The property name</param>
+            <param name="defaultValue">The default value to use if the tag is not present or doesn't have the requested property</param>
+        </member>
+        <member name="M:ConnectionMetadataInjector.MetadataProperty`2.#ctor(System.String,System.Func{`0,`1})">
+            <summary>
+            Declares a metadata property with a dynamically defined default value based on the parent of the tag
+            </summary>
+            <param name="name">The property name</param>
+            <param name="handleDefaultValue">The handler to discover the default value if the tag is not present or doesn't have the requested property</param>
+        </member>
+        <member name="T:ConnectionMetadataInjector.SupplementalMetadata`1">
+            <summary>
+            Represents any randomizer-supplemental metadata on a taggable object
+            </summary>
+            <typeparam name="TObject">The type of object that will hold the data on its tag</typeparam>
+        </member>
+        <member name="M:ConnectionMetadataInjector.SupplementalMetadata`1.IsNonDefault``1(ConnectionMetadataInjector.IMetadataProperty{`0,``0})">
+            <summary>
+            Gets whether the given property has a non-default value in this metadata
+            </summary>
+            <typeparam name="TValue">The type of the property's value</typeparam>
+            <param name="property">The property to check the value of</param>
+            <returns>
+            True, if this object contains a supplmental metadata tag with the requested property.
+            Otherwise, false.
+            </returns>
+        </member>
+        <member name="M:ConnectionMetadataInjector.SupplementalMetadata`1.Get``1(ConnectionMetadataInjector.IMetadataProperty{`0,``0})">
+            <summary>
+            Gets the value of a property in this metadata
+            </summary>
+            <typeparam name="TValue">The type of the property's value</typeparam>
+            <param name="property">The property to get the value of</param>
+            <returns>
+            The value of the property, if this object contains a supplemental metadata tag with the requested property.
+            Otherwise, returns the default value of the property for this object.
+            </returns>
+        </member>
+        <member name="T:ConnectionMetadataInjector.SupplementalMetadata">
+            <summary>
+            Represents randomizer-supplemental metadata on a taggable object
+            </summary>
+        </member>
+        <member name="F:ConnectionMetadataInjector.SupplementalMetadata.InteropTagMessage">
+            <summary>
+            The tag message to specify on interop tags describing supplemental metadata
+            </summary>
+        </member>
+        <member name="M:ConnectionMetadataInjector.SupplementalMetadata.Of``1(``0)">
+            <summary>
+            Gets the supplemental metadata of an object, and if it's a placement, its underlying locations as well.
+            </summary>
+            <typeparam name="TObject">The type of the object; usually inferred</typeparam>
+            <param name="obj">The object</param>
+        </member>
+        <member name="M:ConnectionMetadataInjector.SupplementalMetadata.OfPlacementAndLocations(ItemChanger.AbstractPlacement)">
+            <summary>
+            Gets the supplemental metadata of a placement and its underlying location(s). If you were thinking of using
+            <see cref="M:ConnectionMetadataInjector.SupplementalMetadata.Of``1(``0)"/> to get information about an <see cref="T:ItemChanger.AbstractLocation"/>, you probably want this instead.
+            </summary>
+            <param name="plt">The placement</param>
+        </member>
+        <member name="M:ConnectionMetadataInjector.SupplementalMetadata.OfPlacementOnly(ItemChanger.AbstractPlacement)">
+            <summary>
+            Gets the supplemental metadata of a placement only (and not its underlying locations).
+            </summary>
+            <param name="plt">The placement</param>
+        </member>
+        <member name="T:ConnectionMetadataInjector.Util.MapArea">
+            <summary>
+            Static class listing known map areas
+            </summary>
+        </member>
+        <member name="T:ConnectionMetadataInjector.Util.PoolGroup">
+            <summary>
+            PoolGroup is courtesy of Phenomenol: https://github.com/syyePhenomenol/HollowKnight.MapModS/blob/08f64d3454d8cdbc62773d44d20e6fbec08a9055/MapModS/Data/PoolGroup.cs
+            These are the same as the "Groups" in RandomizerMod's data. See pools.json
+            </summary>
+        </member>
+        <member name="T:ConnectionMetadataInjector.Util.PoolExtensions">
+            <summary>
+            Extension methods providing additional behavior to <see cref="T:ConnectionMetadataInjector.Util.PoolGroup"/>s.
+            </summary>
+        </member>
+        <member name="M:ConnectionMetadataInjector.Util.PoolExtensions.FriendlyName(ConnectionMetadataInjector.Util.PoolGroup)">
+            <summary>
+            Gets the friendly name of the pool group, with spaces and necessary punctuation
+            </summary>
+        </member>
+        <member name="T:ConnectionMetadataInjector.Util.SubcategoryFinder">
+            <summary>
+            Utility class to find subcategories for named rando items and locations with a sensible default value when none could be inferred.
+            Some of these are used as default implementations of some built-in metadata properties.
+            </summary>
+        </member>
+        <member name="F:ConnectionMetadataInjector.Util.SubcategoryFinder.OTHER">
+            <summary>
+            A catchall subcategory to use as a default value when none could be found
+            </summary>
+        </member>
+        <member name="M:ConnectionMetadataInjector.Util.SubcategoryFinder.GetItemPoolGroup(System.String)">
+            <summary>
+            Gets the pool group of a rando item by its name. You probably want to be using <see cref="F:ConnectionMetadataInjector.InjectedProps.ItemPoolGroup"/> to handle custom items
+            if you're trying to get data for an IC item with defined rando data
+            </summary>
+            <param name="item">The item to check</param>
+        </member>
+        <member name="M:ConnectionMetadataInjector.Util.SubcategoryFinder.GetLocationPoolGroup(System.String)">
+            <summary>
+            Gets the pool group of a rando location. You probably want to be using <see cref="F:ConnectionMetadataInjector.InjectedProps.LocationPoolGroup"/> to handle custom locations.
+            if you're trying to get data for an IC placement or location with defined rando data
+            </summary>
+            <param name="location">The location to check</param>
+        </member>
+    </members>
+</doc>

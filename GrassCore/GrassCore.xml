@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GrassCore</name>
+    </assembly>
+    <members>
+        <member name="P:GrassCore.GrassCoreMod.WeedkillerEnabled">
+            <summary>
+            Please note that setting this to false does not guarantee the weedkiller will be disabled, as other mods may still request it.
+            </summary>
+        </member>
+        <member name="P:GrassCore.GrassCoreMod.DisconnectWeedKiller">
+            <summary>
+            Disable default weedkiller behaviour, allowing other mods to manually set WeedKiller.Blacklist to their own records.
+            </summary>
+        </member>
+        <member name="M:GrassCore.GrassCoreMod.RegisterMod(GrassCore.EnableHandler,System.Boolean)">
+            <summary>
+            Passes set properties to their relevant handlers
+            </summary>
+        </member>
+        <member name="T:GrassCore.GrassCutListener">
+            <summary>
+            Handles ingame grass cut events
+            </summary>
+        </member>
+        <member name="F:GrassCore.GrassCutListener.cutDelay">
+            <summary>
+            Time to wait before allowing a second Cut event to register for the same grass object. Allows cutting, respawning grass then cutting again.
+            </summary>
+        </member>
+        <member name="F:GrassCore.GrassCutListener.isCutFI">
+            <summary>
+            Reflected private field of GrassBehaviour.isCut for checking if the GrassBehaviour is supposed to be silent
+            </summary>
+        </member>
+        <member name="T:GrassCore.GrassEventDispatcher">
+            <summary>
+            Invokes and dispatches grassy events for downstream users.
+            </summary>
+        </member>
+        <member name="E:GrassCore.GrassEventDispatcher.Raw_GrassWasCut">
+            <summary>
+            Called whenever a grass-like object was cut.
+            </summary>
+        </member>
+        <member name="E:GrassCore.GrassEventDispatcher.GrassWasCut">
+            <summary>
+            Called whenever a verified grass object was cut.
+            </summary>
+        </member>
+        <member name="E:GrassCore.GrassEventDispatcher.UniqueGrassWasCut">
+            <summary>
+            Called whenever a previously uncut grass object was cut.
+            </summary>
+        </member>
+        <member name="M:GrassCore.GrassKey.#ctor(UnityEngine.GameObject)">
+            <summary>
+            Creates a key from a GameObject. Note that Position is downcast to a Vector2, discarding Z height.
+            </summary>
+        </member>
+        <member name="M:GrassCore.GrassList.Contains(GrassCore.GrassKey)">
+            <summary>
+            Check a grass object against the grass set and alias set.
+            </summary>
+        </member>
+        <member name="M:GrassCore.GrassList.Contains(UnityEngine.GameObject)">
+            <summary>
+            Check a grass object against the grass set and alias set.
+            </summary>
+        </member>
+        <member name="M:GrassCore.GrassList.Canonical(GrassCore.GrassKey)">
+            <summary>
+            Get a grass' canonical key, mapping aliases to their canonical names.
+            </summary>
+        </member>
+        <member name="E:GrassCore.GrassRegister.OnStatsChanged">
+            <summary>
+            Raised when a new grass is cut
+            </summary>
+        </member>
+        <member name="M:GrassCore.GrassStateExtensions.IsCut(GrassCore.GrassState)">
+            <summary>
+            Convenience method for !<see cref="F:GrassCore.GrassState.Uncut"/>
+            </summary>
+        </member>
+        <member name="T:GrassCore.WeedKiller">
+            <summary>
+            Removes grass on scene load.
+            </summary>
+        </member>
+        <member name="M:GrassCore.WeedKiller.DestroyBlacklistedGrass(UnityEngine.SceneManagement.Scene,UnityEngine.SceneManagement.Scene)">
+            <summary>
+            Removes all grass marked as blacklisted in the scene
+            </summary>
+        </member>
+    </members>
+</doc>

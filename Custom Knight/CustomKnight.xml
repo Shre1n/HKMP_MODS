@@ -1,0 +1,1002 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CustomKnight</name>
+    </assembly>
+    <members>
+        <member name="T:CustomKnight.CustomKnight">
+            <summary>
+            Main Mod Class
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnight.GlobalSettings">
+            <summary>
+            GlobalSettings
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnight.SaveSettings">
+            <summary>
+            Settings for current save
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnight.Instance">
+            <summary>
+            Current Mod instance
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnight.dumpManager">
+            <summary>
+            Current DumpManager instance
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnight.swapManager">
+            <summary>
+            Current SwapManager instance
+            </summary>
+        </member>
+        <member name="F:CustomKnight.CustomKnight.GameObjects">
+            <summary>
+            Stores Preloaded gameobjects
+            </summary>
+        </member>
+        <member name="E:CustomKnight.CustomKnight.OnReady">
+            <summary>
+            Event called when CK is fully ready (after applying a skin)
+            </summary>
+        </member>
+        <member name="E:CustomKnight.CustomKnight.OnInit">
+            <summary>
+            Event called when CK is initialised but before applying skin
+            </summary>
+        </member>
+        <member name="E:CustomKnight.CustomKnight.OnUnload">
+            <summary>
+            Event called when the mod is unloaded
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnight.ToggleButtonInsideMenu">
+            <summary>
+            ToggleButtonInsideMenu
+            </summary>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.GetName">
+            <summary>
+            GetName
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.GetVersion">
+            <summary>
+            GetVersion
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.OnLoadGlobal(CustomKnight.GlobalModSettings)">
+            <summary>
+            OnLoadGlobal
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.OnSaveGlobal">
+            <summary>
+            OnSaveGlobal
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.OnLoadLocal(CustomKnight.SaveModSettings)">
+            <summary>
+            OnLoadLocal
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.OnSaveLocal">
+            <summary>
+            OnSaveLocal
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.GetPreloadNames">
+            <summary>
+            GetPreloadNames
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.Initialize(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,UnityEngine.GameObject}})">
+            <summary>
+            Initialize
+            </summary>
+            <param name="preloadedObjects"></param>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.GetMenuScreen(MenuScreen,System.Nullable{Modding.ModToggleDelegates})">
+            <summary>
+            GetMenuScreen
+            </summary>
+            <param name="modListMenu"></param>
+            <param name="toggle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.CustomKnight.Unload">
+            <summary>
+            Unload
+            </summary>
+        </member>
+        <member name="T:CustomKnight.SaveModSettings">
+            <summary>
+            Per save settings
+            </summary>
+        </member>
+        <member name="P:CustomKnight.SaveModSettings.DefaultSkin">
+            <summary>
+            Selected Skin
+            </summary>
+        </member>
+        <member name="T:CustomKnight.GlobalModSettings">
+            <summary>
+            Overall CK settings
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.Version">
+            <summary>
+            Version on which the settings file was created
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.Preloads">
+            <summary>
+            Enables or disables Preloading gameObjects
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.DefaultSkin">
+            <summary>
+            Currently Selected Skin
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.NameLength">
+            <summary>
+            Max Length of the Skin Names that is displayed in UI
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.MaxSkinCache">
+            <summary>
+            Total Number of skins to keep in memory per session
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.SwapperEnabled">
+            <summary>
+            Enables Swappe
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GlobalModSettings.saveSkins">
+            <summary>
+            Skins for each of the save slots
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.DumpOldSwaps">
+            <summary>
+            Option to dump swaps in the old directory style
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.EnablePauseMenu">
+            <summary>
+            Option to enable the new Pause Menu
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.EnableSaveHuds">
+            <summary>
+            Option to enable the Save Selection screen to be skinned
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.EnableParticleSwap">
+            <summary>
+            Option to enable swapping particles (only active when swap is enabled)
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.GenerateDefaultSkin">
+            <summary>
+            Used to indicate to generate default skin on next restart
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.FavoriteSkins">
+            <summary>
+            Favorite skins are kept at the top of the skin list
+            </summary>
+        </member>
+        <member name="P:CustomKnight.GlobalModSettings.RecentSkins">
+            <summary>
+            Recent skins are kept after the favorite skins
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GlobalModSettings.Keybinds">
+            <summary>
+            Saves the keybinds
+            </summary>
+        </member>
+        <member name="T:CustomKnight.CustomKnightTexture">
+            <summary>
+                The Class that represents the state of a <c>Skinable's</c> texture.
+            </summary>
+        </member>
+        <member name="F:CustomKnight.CustomKnightTexture.missing">
+            <summary>
+            is the texture missing
+            </summary>
+        </member>
+        <member name="F:CustomKnight.CustomKnightTexture.fileName">
+            <summary>
+            filename of the texture
+            </summary>
+        </member>
+        <member name="F:CustomKnight.CustomKnightTexture.defaultSprite">
+            <summary>
+            defaultSprite of the texture pulled from game
+            </summary>
+        </member>
+        <member name="F:CustomKnight.CustomKnightTexture.defaultTex">
+            <summary>
+            default texture of the CKT pulled from the game
+            </summary>
+        </member>
+        <member name="F:CustomKnight.CustomKnightTexture.tex">
+            <summary>
+            the loaded texture
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnightTexture.IsSprite">
+            <summary>
+            is a sprite or a texture
+            </summary>
+        </member>
+        <member name="P:CustomKnight.CustomKnightTexture.currentTexture">
+            <summary>
+            Gets the tex or defaultTex depending on availablilty
+            </summary>
+        </member>
+        <member name="M:CustomKnight.CustomKnightTexture.#ctor(System.String,System.Boolean,UnityEngine.Texture2D,UnityEngine.Texture2D)">
+            <summary>
+            ctor
+            </summary>
+            <param name="fileName"></param>
+            <param name="missing"></param>
+            <param name="defaultTex"></param>
+            <param name="tex"></param>
+        </member>
+        <member name="T:CustomKnight.Skinable">
+            <summary>
+                The abstract Class that represents a single Skinable resource in the game.
+                These can be used to add support for custom objects to be skinned as if they were defined within Custom Knight
+            </summary>
+        </member>
+        <member name="F:CustomKnight.Skinable.name">
+            <summary>
+                The name of the Skinable resource, is used as an identifier and the file expected is name.png.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"> Name of the skinable </param>
+        </member>
+        <member name="P:CustomKnight.Skinable.ckTex">
+            <summary>
+                A CustomKnightTexture that holds the state of the skin for this skinable.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable.SaveDefaultTexture">
+            <summary>
+                A Method that is called to create a backup of the default texture of the skinable, used when unloading or as a fallback.
+                this must save the defaultTexture in ckTex for seamless integration.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable.ApplyTexture(UnityEngine.Texture2D)">
+            <summary>
+                A Method that is called to Apply a Texture to the current Skinable.
+            </summary>
+            <param name="tex">A <c>Texture2D</c> that is to be applied</param>
+        </member>
+        <member name="M:CustomKnight.Skinable.Prepare">
+            <summary>
+                A Method that is called to so that any preparations for the Skinable can be done. for example, saving the material that will be used.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable.SaveTexture">
+            <summary>
+                Wrapper Method for SaveDefaultTexture, used for logging.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable.Apply">
+            <summary>
+                Wrapper Method for ApplyTexture, used for logging.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable.Reset">
+            <summary>
+                Wrapper Method for ApplyTexture, used for Resetting the skin to default texture.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable.DumpDefaultTexture">
+            <summary>
+                Method that Dumps the Default Texture to the disk
+            </summary>
+        </member>
+        <member name="T:CustomKnight.Skinable_Hook">
+            <summary>
+            The abstract Class that represents a <c>Skinable</c> that uses a Sprite and requires a hook
+            </summary>
+        </member>
+        <member name="F:CustomKnight.Skinable_Hook.sprite">
+            <summary>
+            The sprite to apply in your hook
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Hook.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"> Name of the skinable </param>
+        </member>
+        <member name="M:CustomKnight.Skinable_Hook.Hook">
+            <summary>
+            Function you should use to subscribe to your hooks
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Hook.UnHook">
+            <summary>
+            Function you should use to cleanup your hooks
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Hook.ApplySprite(UnityEngine.Sprite)">
+            <summary>
+            Function that can set the sprite to be applied in the hook
+            </summary>
+            <param name="newSprite"></param>
+        </member>
+        <member name="T:CustomKnight.Skinable_Multiple">
+            <summary>
+                The abstract Class that represents a <c>Skinable</c> that uses a multiple Materials
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Multiple.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"> Name of your skinable </param>
+        </member>
+        <member name="P:CustomKnight.Skinable_Multiple.materials">
+            <summary>
+            List of materials that we must skin
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Multiple.GetMaterials">
+            <summary>
+                An abstract Method that returns the List{Material} for this <c>Skinable</c>
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Multiple.Prepare">
+            <summary>
+                A Method that is called to so that any preparations for the Skinable can be done. for example, saving the material that will be used.
+            </summary>
+        </member>
+        <member name="T:CustomKnight.Skinable_noCache">
+            <summary>
+            Skinable that does not cache the material
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_noCache.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"> Name of the skinable</param>
+        </member>
+        <member name="M:CustomKnight.Skinable_noCache.GetMaterial">
+            <summary>
+            Function you must implement to return the material to be skinned
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.Skinable_noCache.SaveDefaultTexture">
+            <summary>
+                A Method that is called to create a backup of the default texture of the skinable, used when unloading or as a fallback.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_noCache.ApplyTexture(UnityEngine.Texture2D)">
+            <summary>
+                A Method that is called to Apply a Texture to the current Skinable.
+            </summary>
+            <param name="tex">A <c>Texture2D</c> that is to be applied</param>
+        </member>
+        <member name="T:CustomKnight.Skinable_Single">
+            <summary>
+                The abstract Class that represents a <c>Skinable</c> that uses a single Material
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Single.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="P:CustomKnight.Skinable_Single.material">
+            <summary>
+            Current Material to skin
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Single.GetMaterial">
+            <summary>
+                An abstract Method that returns the Material for this <c>Skinable</c>
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Single.Prepare">
+            <summary>
+                A Method that is called to so that any preparations for the Skinable can be done. for example, saving the material that will be used.
+            </summary>
+        </member>
+        <member name="T:CustomKnight.Skinable_Sprite">
+            <summary>
+                The abstract Class that represents a <c>Skinable</c> that uses a Sprite
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Sprite.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:CustomKnight.Skinable_Sprite.ApplyTexture(UnityEngine.Texture2D)">
+            <summary>
+            Applies a texture
+            </summary>
+            <param name="tex"></param>
+        </member>
+        <member name="M:CustomKnight.Skinable_Sprite.ApplySprite(UnityEngine.Sprite)">
+            <summary>
+                An abstract Method that Applies a Sprite to this <c>Skinable</c>
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Sprite.Reset">
+            <summary>
+            Used for Resetting the skin to default texture
+            </summary>
+        </member>
+        <member name="T:CustomKnight.Skinable_Tk2d">
+            <summary>
+            Used for Skinning Tk2d sprites by material
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Tk2d.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:CustomKnight.Skinable_Tk2d.SaveDefaultTexture">
+            <summary>
+            A Method that is called to create a backup of the default texture
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Tk2d.ApplyTexture(UnityEngine.Texture2D)">
+            <summary>
+            A Method that is called to Apply a Texture to the current Skinable.
+            </summary>
+            <param name="tex"></param>
+        </member>
+        <member name="T:CustomKnight.Skinable_Tk2ds">
+            <summary>
+            Class to Skin multiple Tk2ds by their materials
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Tk2ds.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:CustomKnight.Skinable_Tk2ds.SaveDefaultTexture">
+            <summary>
+            A Method that is called to create a backup of the default texture of the skinable
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Skinable_Tk2ds.ApplyTexture(UnityEngine.Texture2D)">
+            <summary>
+            A Method that is called to Apply a Texture to the current Skinable.
+            </summary>
+            <param name="tex"></param>
+        </member>
+        <member name="T:CustomKnight.SkinManager">
+            <summary>
+            Allows Managing the Skins
+            </summary>
+        </member>
+        <member name="P:CustomKnight.SkinManager.DATA_DIR">
+            <summary>
+            Name of the Data directory
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinManager.Skinables">
+            <summary>
+            Dictionary that holds all Skinable items
+            </summary>
+        </member>
+        <member name="E:CustomKnight.SkinManager.OnSetSkin">
+            <summary>
+            Event raised when a skin is set
+            </summary>
+        </member>
+        <member name="M:CustomKnight.SkinManager.AddSkin(CustomKnight.ISelectableSkin)">
+            <summary>
+                Add a skin to the skin list provided by an external mod.
+            </summary>
+            <param name="NewSkin">an <c>ISelectableSkin</c> that represents the skin</param>
+            <returns>true if the skin is added</returns>
+        </member>
+        <member name="M:CustomKnight.SkinManager.SkinExistsById(System.String)">
+            <summary>
+               Checks if a skin from the overall skin list exists that matches a given id.
+            </summary>
+            <param name="id"></param>
+            <returns> true if exists </returns>
+        </member>
+        <member name="M:CustomKnight.SkinManager.GetSkinById(System.String)">
+            <summary>
+                Gets a skin from the overall skin list that matches a given id.
+            </summary>
+            <param name="id">a <c>string</c> that uniquely identifies the skin</param>
+            <returns>an <c>ISelectableSkin</c> that represents the skin or the default skin</returns>
+        </member>
+        <member name="M:CustomKnight.SkinManager.GetDefaultSkin">
+            <summary>
+                Gets the default skin.
+            </summary>
+            <returns>an <c>ISelectableSkin</c> that represents the default skin</returns>
+        </member>
+        <member name="M:CustomKnight.SkinManager.GetCurrentSkin">
+            <summary>
+                Gets the current skin.
+            </summary>
+            <returns>an <c>ISelectableSkin</c> that represents the current skin</returns>
+        </member>
+        <member name="M:CustomKnight.SkinManager.GetInstalledSkins">
+            <summary>
+                Gets all the installed skins (includes mod provided skins).
+            </summary>
+            <returns>an <c>ISelectableSkin[]</c> that represents all the installed skins</returns>
+        </member>
+        <member name="M:CustomKnight.SkinManager.RefreshSkin(System.Boolean)">
+            <summary>
+                Refreshes the current skin, useful when the provided skin needs to change.
+            </summary>
+            <param name="skipFlash">a <c>bool</c> that determines if the knight should flash white</param>
+        </member>
+        <member name="M:CustomKnight.SkinManager.SetSkinById(System.String)">
+            <summary>
+                Change the current skin, to the one whose id is provided.
+            </summary>
+            <param name="id">a <c>string</c> that uniquely identifies the skin</param>
+        </member>
+        <member name="T:CustomKnight.ISelectableSkin">
+            <summary>
+                The Interface that a Class must implement to be treated as a skin.
+            </summary>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.GetId">
+            <summary>
+             GetId
+            </summary>
+            <returns>The unique id of the skin as a <c>string</c></returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.GetName">
+            <summary>
+             GetName
+            </summary>
+            <returns>The Name to be displayed in the menu as a <c>string</c></returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.shouldCache">
+            <summary>
+             shouldCache
+            </summary>
+            <returns>A <c>bool</c> representing if the texture can be cached in memory or not.</returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.hasSwapper">
+            <summary>
+             hasSwapper
+            </summary>
+            <returns>A <c>bool</c> representing if the skin has support for swapper files.</returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.getSwapperPath">
+            <summary>
+             getSwapperPath
+            </summary>
+            <returns>A <c>string</c> representing the absolute path to the directory containing the swap folder.</returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.Exists(System.String)">
+            <summary>
+             Exists
+            </summary>
+            <param name="FileName">A <c>string</c> that identifies the file</param>
+            <returns>A <c>bool</c> representing if the file exists in this skin.</returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.GetTexture(System.String)">
+            <summary>
+             GetTexture
+            </summary>
+            <param name="FileName">A <c>string</c> that identifies the texture file</param>
+            <returns>A <c>Texture2D</c>, the texture for that filename.</returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.GetFile(System.String)">
+            <summary>
+             GetFile reads an arbitrary file from the skin
+            </summary>
+            <param name="FileName">A <c>string</c> that identifies the file</param>
+            <returns>A <c>byte[]</c>, the contents of that filename.</returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.HasCinematic(System.String)">
+            <summary>
+             HasCinematic returns if a given ciematic exists
+            </summary>
+            <param name="CinematicName">A <c>string</c> that identifies the Cinematic</param>
+            <returns>A <c>bool</c>, representing  if a given ciematic exists</returns>
+        </member>
+        <member name="M:CustomKnight.ISelectableSkin.GetCinematicUrl(System.String)">
+            <summary>
+             GetCinematicUrl returns the Url for the given Cinematic
+            </summary>
+            <param name="CinematicName">A <c>string</c> that identifies the Cinematic</param>
+            <returns>A <c>string</c>, the Url for the given Cinematic (a file://  url for local files).</returns>
+        </member>
+        <member name="T:CustomKnight.ISupportsConfig">
+            <summary>
+            Interface that must be implemented if the skin supports configs and settings
+            </summary>
+        </member>
+        <member name="M:CustomKnight.ISupportsConfig.GetConfig">
+            <summary>
+            Method that must return the SkinConfig
+            </summary>
+            <returns>SkinConfig</returns>
+        </member>
+        <member name="M:CustomKnight.ISupportsConfig.GetSettings">
+            <summary>
+            Method that must return the SkinSettings
+            </summary>
+            <returns>SkinSettings</returns>
+        </member>
+        <member name="T:CustomKnight.ISupportsOverrides">
+            <summary>
+            Interface that must be implemented for your skin to have support for overrides(alternate sheets)
+            </summary>
+        </member>
+        <member name="M:CustomKnight.ISupportsOverrides.HasOverrides(System.String)">
+            <summary>
+            HasOverrides returns if a given file has overrides
+            </summary>
+            <param name="FileName">A <c>string</c> that identifies the file</param>
+            <returns>A <c>bool</c> representing if the file exists in this skin.</returns>
+        </member>
+        <member name="M:CustomKnight.ISupportsOverrides.GetAllOverrides(System.String)">
+            <summary>
+            GetAllOverrides returns the overrides if a given file has overrides
+            </summary>
+            <param name="FileName">A <c>string</c> that identifies the file</param>
+            <returns>A string[] of overrides</returns>
+        </member>
+        <member name="M:CustomKnight.ISupportsOverrides.SetOverride(System.String,System.String)">
+            <summary>
+            SetOverride sets a file as the selected override
+            </summary>
+            <param name="FileName">A <c>string</c> that identifies the file</param>
+            <param name="AlternateFileName">A <c>string</c> that identifies the alternate file</param>
+        </member>
+        <member name="M:CustomKnight.ISupportsOverrides.GetOverride(System.String)">
+            <summary>
+            GetOverride gets the currently selected override (or default)
+            </summary>
+            <param name="FileName">A <c>string</c> that identifies the file</param>
+            <returns>A <c>string</c> that identifies the overridden file</returns>
+        </member>
+        <member name="T:CustomKnight.StaticSkin">
+            <summary>
+                The Class that represents all static skins that CustomKnight manages.
+            </summary>
+        </member>
+        <member name="T:CustomKnight.Cinematic">
+            <summary>
+            Class that defines a replacable Cinamatic
+            </summary>
+        </member>
+        <member name="P:CustomKnight.Cinematic.ClipName">
+            <summary>
+            Name of the current Cinematic
+            </summary>
+        </member>
+        <member name="M:CustomKnight.Cinematic.#ctor(System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="ClipName"></param>
+        </member>
+        <member name="T:CustomKnight.KeyBinds">
+            <summary>
+            Stores Keybinds
+            </summary>
+        </member>
+        <member name="F:CustomKnight.KeyBinds.OpenSkinList">
+            <summary>
+            Keybind to open the skin list
+            </summary>
+        </member>
+        <member name="F:CustomKnight.KeyBinds.ReloadSkins">
+            <summary>
+            Keybind to Reload the skin
+            </summary>
+        </member>
+        <member name="M:CustomKnight.KeyBinds.#ctor">
+            <summary>
+            Ctor
+            </summary>
+        </member>
+        <member name="T:CustomKnight.SkinConfig">
+            <summary>
+            Author side configuration for a skin
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinConfig.dungFilter">
+            <summary>
+            Should enable the filter over defender's crest effect
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinConfig.wraithsFilter">
+            <summary>
+            Should disable the filter applied on the wraiths sheet
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinConfig.brummColor">
+            <summary>
+            Color that flashes when Melody is triggered
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinConfig.flashColor">
+            <summary>
+            Color that flashes when the player heals
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinConfig.dungFlash">
+            <summary>
+            Color that flashes when an enemy is under the effect of defender's crest
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinConfig.detectAlts">
+            <summary>
+            Should the mod try to auto-detect Alts? should be disabled on authored skins
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinConfig.alternates">
+            <summary>
+            default filename to List of available alternate filenames
+            </summary>
+        </member>
+        <member name="M:CustomKnight.SkinConfig.#ctor">
+            <summary>
+            Ctor
+            </summary>
+        </member>
+        <member name="T:CustomKnight.SkinSettings">
+            <summary>
+            User side skin settings that are updated by the mod
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SkinSettings.selectedAlternates">
+            <summary>
+            Alternates that are selected for each default filename
+            </summary>
+        </member>
+        <member name="M:CustomKnight.SkinSettings.#ctor">
+            <summary>
+            Ctor
+            </summary>
+        </member>
+        <member name="T:CustomKnight.DumpEvent">
+            <summary>
+            DumpEvent
+            </summary>
+        </member>
+        <member name="P:CustomKnight.DumpEvent.scene">
+            <summary>
+            Scene of the dump object
+            </summary>
+        </member>
+        <member name="P:CustomKnight.DumpEvent.go">
+            <summary>
+            The dump GameObject
+            </summary>
+        </member>
+        <member name="T:CustomKnight.DumpManager">
+            <summary>
+            Main class for managing dumping sprites
+            </summary>
+        </member>
+        <member name="E:CustomKnight.DumpManager.BeforeDumpingGameObject">
+            <summary>
+            Event raised jsut before a game object is dumped
+            </summary>
+        </member>
+        <member name="M:CustomKnight.DumpManager.GetIsEnabled">
+            <summary>
+            GetIsEnabled
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.DumpManager.DumpAllSprites">
+            <summary>
+            Main entrypoint to start the dumping process
+            </summary>
+        </member>
+        <member name="M:CustomKnight.DumpManager.dumpSpriteForGo(UnityEngine.SceneManagement.Scene,UnityEngine.GameObject)">
+            <summary>
+            Function that actually determines what to dump given a scene and gameobject
+            </summary>
+            <param name="scene"></param>
+            <param name="go"></param>
+        </member>
+        <member name="T:CustomKnight.GameObjectProxy">
+            <summary>
+            The proxy GameObject that is used to create the GO hierarchy that the swaps must be applied to
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GameObjectProxy.name">
+            <summary>
+            Name/path the file
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GameObjectProxy.alias">
+            <summary>
+            alias of the file
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GameObjectProxy.rootPath">
+            <summary>
+            root path of the file (name of the folder under swap)
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GameObjectProxy.hasTexture">
+            <summary>
+            if the GOP has texture
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GameObjectProxy.hasChildren">
+            <summary>
+            if the GOP has Children
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GameObjectProxy.fileType">
+            <summary>
+            Type of the file that is detected
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GameObjectProxy.children">
+            <summary>
+            Direct Childern of this GOP
+            </summary>
+        </member>
+        <member name="M:CustomKnight.GameObjectProxy.getObjectPath">
+            <summary>
+            Get the file Path
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.GameObjectProxy.getTexturePath">
+            <summary>
+            get the texture path
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.GameObjectProxy.getAliasPath">
+            <summary>
+            Get the alias Path
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CustomKnight.GameObjectProxy.TraverseGameObjectPath(System.String,System.String,System.String,System.String)">
+            <summary>
+            Create the hierarchy defined by the given path
+            </summary>
+            <param name="path"></param>
+            <param name="rootPath"></param>
+            <param name="name"></param>
+            <param name="alias"></param>
+        </member>
+        <member name="M:CustomKnight.GameObjectProxy.TraverseGameObjectDirectory(System.String)">
+            <summary>
+            Create the hierarchy based on detecting files and directories at a particular path
+            </summary>
+            <param name="basePath"></param>
+        </member>
+        <member name="T:CustomKnight.GlobalSwapMarker">
+            <summary>
+            Component to allow swapper to detect a GameObject as if it is on another path (this is a hack and will only work for global directory)
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GlobalSwapMarker.originalPath">
+            <summary>
+            Original path of the game object
+            </summary>
+        </member>
+        <member name="F:CustomKnight.GlobalSwapMarker.optOut">
+            <summary>
+            Opt out this object from skinning, will only be skinned once the actual object this is a clone of is encountered
+            </summary>
+        </member>
+        <member name="T:CustomKnight.SpriteRendererMaterialPropertyBlock">
+            <summary>
+            Component that forcibly sets the MaterialPropertyBlock of the SpriteRenderer to a defined value every Update and LateUpdate
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SpriteRendererMaterialPropertyBlock.mpb">
+            <summary>
+            The MaterialPropertyBlock to set
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SpriteRendererMaterialPropertyBlock.sr">
+            <summary>
+            The SpriteRenderer to set the block to
+            </summary>
+        </member>
+        <member name="T:CustomKnight.SwapEvent">
+            <summary>
+            SwapEvent
+            </summary>
+        </member>
+        <member name="P:CustomKnight.SwapEvent.gop">
+            <summary>
+            Current GameObjectProxt
+            </summary>
+        </member>
+        <member name="P:CustomKnight.SwapEvent.go">
+            <summary>
+            GameObject being swapped
+            </summary>
+        </member>
+        <member name="T:CustomKnight.SwapManager">
+            <summary>
+            Manages all Swaps
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SwapManager.defaultTextures">
+            <summary>
+            store the default textures for each material to be able to restore later
+            </summary>
+        </member>
+        <member name="F:CustomKnight.SwapManager.defaultSprites">
+            <summary>
+            store the default sprite for each spriterenderer to be able to restore later
+            </summary>
+        </member>
+        <member name="E:CustomKnight.SwapManager.OnApplySkinUsingProxy">
+            <summary>
+            Event raised when a skin is applied using GOP
+            </summary>
+        </member>
+        <member name="M:CustomKnight.SwapManager.SkinChangeSwap(CustomKnight.ISelectableSkin)">
+            <summary>
+            Main entry point to change skins
+            </summary>
+            <param name="currSkin"></param>
+        </member>
+        <member name="M:CustomKnight.SwapManager.LoadSwapByPath(System.String)">
+            <summary>
+            Function loads a folder as a swap (allows to centralise Global and Skin folder logic)
+            </summary>
+            <param name="pathToLoad"></param>
+        </member>
+        <member name="M:CustomKnight.SwapManager.applyGlobalTk2dByPath(System.String,tk2dSprite)">
+            <summary>
+            Global Swap a tk2dSprite as if it were at a given path
+            </summary>
+            <param name="path"></param>
+            <param name="tk"></param>
+        </member>
+    </members>
+</doc>

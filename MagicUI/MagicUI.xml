@@ -1,0 +1,2105 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MagicUI</name>
+    </assembly>
+    <members>
+        <member name="M:MagicUI.Behaviours.LayoutOrchestrator.RegisterElement(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Registers an element in layout for arrangement and later lookup
+            </summary>
+            <param name="element">The element to add</param>
+        </member>
+        <member name="M:MagicUI.Behaviours.LayoutOrchestrator.RemoveElement(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Removes an element from the layout
+            </summary>
+            <param name="element">The element to remove</param>
+        </member>
+        <member name="M:MagicUI.Behaviours.LayoutOrchestrator.Clear">
+            <summary>
+            Cleans up the orchestrator
+            </summary>
+        </member>
+        <member name="M:MagicUI.Behaviours.LayoutOrchestrator.Find(System.String)">
+            <summary>
+            Looks up several elements by name
+            </summary>
+            <param name="name">The name to search for</param>
+            <returns>All elements with the given name, if any exist</returns>
+        </member>
+        <member name="M:MagicUI.Behaviours.LayoutOrchestrator.Find``1(System.String)">
+            <summary>
+            Looks up several elements with a given type by name
+            </summary>
+            <typeparam name="T">The type of element to search for</typeparam>
+            <param name="name">The name to search for</param>
+            <returns>All elements of the given type with the given name, if any exist</returns>
+        </member>
+        <member name="T:MagicUI.Core.HorizontalAlignment">
+            <summary>
+            Horizontal alignment options
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.VerticalAlignment">
+            <summary>
+            Vertical alignment options
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.ArrangableElement">
+            <summary>
+            Root class for arrangeable UI elements
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.LayoutRoot">
+            <summary>
+            The visual layout parent of this element
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.MeasureIsResolutionSensitive">
+            <summary>
+            Indicates whether an element's ability to accurately measure itself is sensitive to the display resolution.
+            Such elements are automatically remeasured when the resolution changes
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.MeasureIsValid">
+            <summary>
+            Whether the most recent measurement can be treated as accurate
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.ArrangeIsValid">
+            <summary>
+            Whether the most recent arrangement can be treated as accurate
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.WasEverArranged">
+            <summary>
+            Whether the element was successfully arranged at any point
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.DestroyInProgress">
+            <summary>
+            Whether the element is currently in the process of being destroyed
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.Name">
+            <summary>
+            The name of the arrangeable for lookup purposes
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.PlacementRect">
+            <summary>
+            The current rect this element is placed in. This is set before <see cref="M:MagicUI.Core.ArrangableElement.ArrangeOverride(UnityEngine.Vector2)"/> is called, so you can access the placement
+            space for custom implementations of the aligned top-left corner if needed
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.HorizontalAlignment">
+            <summary>
+            The arrangeable's horizontal alignment
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.VerticalAlignment">
+            <summary>
+            The arrangeable's vertical alignment
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.Visibility">
+            <summary>
+            The actual visibility of the element
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.Padding">
+            <summary>
+            The padding around 
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.IsEffectivelyVisible">
+            <summary>
+            Whether the element's content will be rendered, i.e. if this elements ancestors in the logical tree are all visible
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.ContentSize">
+            <summary>
+            The cached size of this element's actual content. Set from the last result of <see cref="M:MagicUI.Core.ArrangableElement.Measure"/>.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.EffectiveSize">
+            <summary>
+            The cached effective size in the layout system including padding and visibility. Set from the last result of <see cref="M:MagicUI.Core.ArrangableElement.Measure"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.ArrangableElement.LogicalParent">
+            <summary>
+            This element's parent in the layout hierarchy, if any
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.SetLogicalChild(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Sets the logical parent of the provided child to this element. Usable by any derived arrangable.
+            </summary>
+            <param name="child">The new child object</param>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.DetachLogicalChild(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Detaches a child from this element in the logical tree if this element is its parent.
+            </summary>
+            <param name="child">The child object</param>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates an arrangable element
+            </summary>
+            <param name="onLayout">The layout to draw the element on</param>
+            <param name="name">The name of the elemtent</param>
+            <remarks>
+            Arrangable elements should be placed on the same layout as their parents. This is not a hard requirement, so
+            in theory, it should work to put different parts of the logical tree in different layouts.
+            However, if you do this, know that it may cause unexpected behavior and use with caution.
+            </remarks>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.InvalidateMeasure">
+            <summary>
+            Indicates the measure is no longer valid; will trigger a full re-render of the visual tree.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.InvalidateArrange">
+            <summary>
+            Indicates the arrange is no longer valid; will trigger a rearrange of this element and its children.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.GetAlignedTopLeftCorner(UnityEngine.Rect)">
+            <summary>
+            Helper method to get the position of the top left corner during arrangement, given the component's vertical and horizontal alignments and padding
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.Measure">
+            <summary>
+            Calculates the desired size of the object and caches it in <see cref="P:MagicUI.Core.ArrangableElement.ContentSize"/> for later reference in this UI build cycle.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.MeasureOverride">
+            <summary>
+            Internal implementation to calculate desired size.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.Arrange(UnityEngine.Rect)">
+            <summary>
+            Positions the object within the allocated space.
+            </summary>
+            <param name="availableSpace">The space available for the element.</param>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.ArrangeOverride(UnityEngine.Vector2)">
+            <summary>
+            Internal implementation to position the object within the allocated space.
+            </summary>
+            <param name="alignedTopLeftCorner">The space available for the element.</param>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.Destroy">
+            <summary>
+            Destroys this element
+            </summary>
+            <remarks>
+            Generally, it assumed when you destroy an element, it, its children, and any underlying <see cref="T:UnityEngine.GameObject"/>s are not intended to be reused.
+            Accordingly, a destroyed element will be removed from its parent in most cases and unregistered from the layout system.
+            Attempting to use a destroyed element will result in undefined behavior and may give unwanted results.
+            </remarks>
+        </member>
+        <member name="M:MagicUI.Core.ArrangableElement.DestroyOverride">
+            <summary>
+            Internal implementation to perform any additional cleanup when the element is destroyed
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.AttachedProperty`1">
+            <summary>
+            A property declaration on a parent object that requires its children to specify parameters
+            </summary>
+            <typeparam name="TProperty"></typeparam>
+        </member>
+        <member name="M:MagicUI.Core.AttachedProperty`1.#ctor(`0,MagicUI.Core.ChangeAction,System.Predicate{`0})">
+            <summary>
+            Creates a new attached property
+            </summary>
+            <param name="defaultValue">The default value of the property</param>
+            <param name="actionOnChange">The action to take in the layout system when this property changes</param>
+            <param name="validate"></param>
+        </member>
+        <member name="M:MagicUI.Core.AttachedProperty`1.Set(MagicUI.Core.ArrangableElement,`0)">
+            <summary>
+            Sets the value of this property on an element
+            </summary>
+            <param name="element">The element</param>
+            <param name="value">The new value</param>
+        </member>
+        <member name="M:MagicUI.Core.AttachedProperty`1.Get(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Gets the value of this property on an element
+            </summary>
+            <param name="element">The element</param>
+        </member>
+        <member name="T:MagicUI.Core.ApplyAttachedPropertyChainables">
+            <summary>
+            Chainable extension methods to apply attached properties to elements inline at declaration time
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ApplyAttachedPropertyChainables.WithProp``2(``0,MagicUI.Core.AttachedProperty{``1},``1)">
+            <summary>
+            Applies a value to an attached property on a given element and returns the element for chaining
+            </summary>
+            <typeparam name="T">The type of the element</typeparam>
+            <typeparam name="U">The type of the property</typeparam>
+            <param name="element">The element to attach a property to</param>
+            <param name="property">The property to attach</param>
+            <param name="value">The new value of the property</param>
+            <returns>The original element for chaining</returns>
+        </member>
+        <member name="T:MagicUI.Core.ChangeAction">
+            <summary>
+            Possible actions on the layout system when a property value changes
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.ChangeAction.Arrange">
+            <summary>
+            Rearrange the element holding the property value
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.ChangeAction.Measure">
+            <summary>
+            Remeasure and rearrange the element holding the property value
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.ChangeAction.ParentArrange">
+            <summary>
+            Rearrange the parent of the element holding the property value
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.ChangeAction.ParentMeasure">
+            <summary>
+            Remeasure and rearrange the parent of the element holding the property value
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.ChangeAction.None">
+            <summary>
+            Take no action
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.ChangeActionExtensions">
+            <summary>
+            Extension methods to provide behavior to <see cref="T:MagicUI.Core.ChangeAction"/>s
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ChangeActionExtensions.Notify(MagicUI.Core.ChangeAction,MagicUI.Core.ArrangableElement)">
+            <summary>
+            Notify an element with the given action type
+            </summary>
+            <param name="actionOnChange">This action type</param>
+            <param name="element">The element to notify</param>
+        </member>
+        <member name="T:MagicUI.Core.Container">
+            <summary>
+            Root class for an arrangable element with a single child
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Container.Child">
+            <summary>
+            The child of this container.Replacing or removing the child will destroy it.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.Container.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a container
+            </summary>
+            <param name="onLayout">The layout root to draw the container on</param>
+            <param name="name">The name of the container</param>
+        </member>
+        <member name="M:MagicUI.Core.Container.HandleChildDestroyed(MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Core.IControllerInteractable">
+            <summary>
+            A controller-interactable element
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.IControllerInteractable.GetSelectable">
+            <summary>
+            Gets the Unity <see cref="T:UnityEngine.UI.Selectable"/> underlying the element
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.IGameObjectWrapper">
+            <summary>
+            An element that implements visible components by wrapping a Unity <see cref="T:UnityEngine.GameObject"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.IGameObjectWrapper.GameObject">
+            <summary>
+            The <see cref="T:UnityEngine.GameObject"/> underlying this UI element
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.ILayoutParent">
+            <summary>
+            An element that is expected to have logical children
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.ILayoutParent.HandleChildDestroyed(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Additional handling for when a child is being destroyed
+            </summary>
+            <param name="child">The child being destroyed</param>
+        </member>
+        <member name="T:MagicUI.Core.Layout">
+            <summary>
+            Root class for an arrangable element with multiple children
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Layout.Children">
+            <summary>
+            The children of this layout
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.Layout.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a layout
+            </summary>
+            <param name="onLayout">The layout root to draw the layout on</param>
+            <param name="name">The name of the layout</param>
+        </member>
+        <member name="M:MagicUI.Core.Layout.HandleChildDestroyed(MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Core.LayoutRoot">
+            <summary>
+            Entry point to create layouts
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.Name">
+            <summary>
+            The name of the layout root
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.IsPersistent">
+            <summary>
+            Whether this is a persistent layout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.Canvas">
+            <summary>
+            The unity <see cref="T:UnityEngine.Canvas"/> underlying the layout.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.Elements">
+            <summary>
+            A read-only collection of elements registered to this layout.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.Interactive">
+            <summary>
+            Whether the elements in this layout hierarchy should be interactive. When true (by default), the elements in the hierarchy
+            will block interaction with other UI elements.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.VisibilityCondition">
+            <summary>
+            A predicate that determines whether the layout should be visible. By default (i.e. when there is no condition), the layout is
+            always visible.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.Opacity">
+            <summary>
+            The current opacity of elements in the layout hierarchy.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.LayoutRoot.RenderDebugLayoutBounds">
+            <summary>
+            Whether to render the layout system bounds of elements in this layout for debugging purposes
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.#ctor(System.Boolean,System.String)">
+            <summary>
+            Creates a new layout root
+            </summary>
+            <param name="persist">Whether the layout will persist across scene transitions</param>
+            <param name="name">The name of the layout root and underlying canvas</param>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.#ctor(System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Creates a new layout root
+            </summary>
+            <param name="persist">Whether the layout will persist across scene transitions</param>
+            <param name="pauseOnly">Whether the layout will be visible only while the game is paused</param>
+            <param name="name">The name of the layout root and underlying canvas</param>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.ListenForHotkey(UnityEngine.KeyCode,System.Action,MagicUI.Core.ModifierKeys,System.Func{System.Boolean})">
+            <summary>
+            Initializes a hotkey listener that performs an action when a given key combination is pressed
+            </summary>
+            <param name="key">The keypress to listen for</param>
+            <param name="execute">The action to perform when the key is pressed</param>
+            <param name="modifiers">Other required modifier keys that must be held to trigger the event</param>
+            <param name="condition">The condition in which this hotkey should be enabled</param>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.ListenForPlayerAction(InControl.PlayerAction,System.Action,System.Func{System.Boolean})">
+            <summary>
+            Initializes a PlayerAction listener that performs an action when the PlayerAction IsPressed goes from False to True
+            </summary>
+            <param name="playerAction">The PlayerAction to bind to</param>
+            <param name="execute">The action to perform when the PlayerAction is pressed</param>
+            <param name="condition">The condition in which this action should be enabled</param>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.BeginFade(System.Single,System.Single)">
+            <summary>
+            Linearly fades the elements in this layout hierarchy to a new opacity value.
+            </summary>
+            <param name="targetOpacity">The target opacity.</param>
+            <param name="fadeDuration">The duration of time the fade should take to complete, in seconds.</param>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.GetElement(System.String)">
+            <summary>
+            Gets an element in this layout by name
+            </summary>
+            <param name="name">The name to search for</param>
+            <returns>The first element in this layout with the given name if any exist, or else null</returns>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.GetElements(System.String)">
+            <summary>
+            Gets all elements in this layout by name
+            </summary>
+            <param name="name">The name to search for</param>
+            <returns>All elements in this layout with the given name if any exist, or else an empty enumerable</returns>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.GetElement``1(System.String)">
+            <summary>
+            Gets an element in this layout by name and type
+            </summary>
+            <typeparam name="T">The type of element to search for</typeparam>
+            <param name="name">The name to search for</param>
+            <returns>The first element in this layout with the given name and type if any exist, or else null</returns>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.GetElements``1(System.String)">
+            <summary>
+            Gets all elements in this layout by name and type
+            </summary>
+            <typeparam name="T">The type of element to search for</typeparam>
+            <param name="name">The name to search for</param>
+            <returns>All elements in this layout with the given name and type if any exist, or else an empty enumerable</returns>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.ForceInteractivityRefresh">
+            <summary>
+            Forces the interactivity controller to immediately re-evaluate interactivity conditions without needing to wait a frame
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.LayoutRoot.Destroy">
+            <summary>
+            Destroys the layout root and all of its child elements
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.ModifierKeys">
+            <summary>
+            Modifier keys for hotkey listeners
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.NotifyingCollection`1">
+            <summary>
+            A collection that can notify its owner's layout system when its contents are updated
+            </summary>
+            <typeparam name="T">The type of contents</typeparam>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.#ctor(MagicUI.Core.ArrangableElement,MagicUI.Core.ChangeAction)">
+            <summary>
+            Creates a notifying collection
+            </summary>
+            <param name="owner">The collection owner</param>
+            <param name="actionOnChange">The action to take when a change occurs</param>
+        </member>
+        <member name="P:MagicUI.Core.NotifyingCollection`1.Count">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Core.NotifyingCollection`1.Item(System.Int32)">
+            <summary>
+            Indexing operator for this collection
+            </summary>
+            <param name="idx">The index</param>
+        </member>
+        <member name="P:MagicUI.Core.NotifyingCollection`1.IsReadOnly">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.Add(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Convenience method to add several items at once
+            </summary>
+            <param name="items">The items to add to the collection</param>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.Clear">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.Contains(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.CopyTo(`0[],System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.NotifyingCollection`1.Remove(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Core.Orientation">
+            <summary>
+            Orientation options for layouts
+            </summary>
+        </member>
+        <member name="T:MagicUI.Core.Padding">
+            <summary>
+            Describes the padding around an element
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.Padding.Zero">
+            <summary>
+            A uniform empty padding
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Padding.Left">
+            <summary>
+            The left side padding
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Padding.Top">
+            <summary>
+            The top side padding
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Padding.Right">
+            <summary>
+            The right side padding
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Padding.Bottom">
+            <summary>
+            The bottom side padding
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Padding.AddedWidth">
+            <summary>
+            The total width added by the padding
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.Padding.AddedHeight">
+            <summary>
+            The total height added by the padding
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.Padding.#ctor(System.Single)">
+            <summary>
+            Creates a uniform padding
+            </summary>
+            <param name="uniform">The padding to use on all sides</param>
+        </member>
+        <member name="M:MagicUI.Core.Padding.#ctor(System.Single,System.Single)">
+            <summary>
+            Creates a padding with the same top/bottom and left/right components
+            </summary>
+            <param name="horizontal">The padding to use on the left and right sides</param>
+            <param name="vertical">The padding to use on the top and bottom sides</param>
+        </member>
+        <member name="M:MagicUI.Core.Padding.#ctor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a padding with 4 custom sides
+            </summary>
+            <param name="left">The padding to use on the left side</param>
+            <param name="top">The padding to use on the top side</param>
+            <param name="right">The padding to use on the right side</param>
+            <param name="bottom">The padding to use on the bottom side</param>
+        </member>
+        <member name="M:MagicUI.Core.Padding.Inset(MagicUI.Core.Padding)">
+            <summary>
+            Insets this padding by another padding. In other words, makes the padding smaller by the size of the other padding on each side, stopping at 0.
+            </summary>
+            <param name="other">The padding to inset by</param>
+            <returns>A modified padding</returns>
+        </member>
+        <member name="M:MagicUI.Core.Padding.Outset(MagicUI.Core.Padding)">
+            <summary>
+            Outsets this padding by another padding. In other words, makes the padding larger by the size of the other padding on each side.
+            </summary>
+            <param name="other">The padding to outset by</param>
+            <returns>A modified padding</returns>
+        </member>
+        <member name="M:MagicUI.Core.Padding.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.Padding.Equals(MagicUI.Core.Padding)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.Padding.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.Padding.op_Equality(MagicUI.Core.Padding,MagicUI.Core.Padding)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.Padding.op_Inequality(MagicUI.Core.Padding,MagicUI.Core.Padding)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Core.ParentedElementList">
+            <summary>
+            A list of arrangable elements with reference to hierarchical parents
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Core.ParentedElementList.Item(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Core.ParentedElementList.Count">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Core.ParentedElementList.IsReadOnly">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.Add(MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.Clear">
+            <summary>
+            Removes and destroys all elements in the list.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.Contains(MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.CopyTo(MagicUI.Core.ArrangableElement[],System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.IndexOf(MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.Insert(System.Int32,MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.Remove(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Removes and destroys the first occurrence of a specific element from the list.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Core.ParentedElementList.RemoveAt(System.Int32)">
+            <summary>
+            Removes and destroys the element at the specified index.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Core.UI">
+            <summary>
+            Class containing various UI utilities and constants
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.UI.Screen">
+            <summary>
+            A rectangle representing the screen
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.UI.TrajanNormal">
+            <summary>
+            The Trajan Normal font
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.UI.TrajanBold">
+            <summary>
+            The Trajan Bold font
+            </summary>
+        </member>
+        <member name="P:MagicUI.Core.UI.Perpetua">
+            <summary>
+            The Perpetua font
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.UI.UnityScreenPosition(UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Converts a position in reference screen space to a unity position
+            </summary>
+            <param name="pos">The position in screen space</param>
+            <param name="elementSize">The size of the element</param>
+            <remarks>
+            Reference screen space is the coordinate system with (0, 0) in the top-left and
+            (1920, 1080) in the bottom-right.
+            </remarks>
+        </member>
+        <member name="M:MagicUI.Core.UI.UnityParentRelativePosition(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Converts a position in parent space to a unity position
+            </summary>
+            <param name="pos">The position in parent space</param>
+            <param name="elementSize">The size of the element</param>
+            <param name="parentSize">The size of the element's parent</param>
+            <remarks>
+            Parent space is the coordinate system with (0, 0) in the top-left and
+            (W, H) in the bottom-right, where W is the width of the parent and H is the height
+            of the parent
+            </remarks>
+        </member>
+        <member name="T:MagicUI.Core.UIExtensions">
+            <summary>
+            Static extensions for helping with UIs
+            </summary>
+        </member>
+        <member name="M:MagicUI.Core.UIExtensions.Deconstruct(UnityEngine.Vector2,System.Single@,System.Single@)">
+            <summary>
+            Desconstruction assignment for <see cref="T:UnityEngine.Vector2"/>
+            </summary>
+            <param name="vec">The vector to deconstruct</param>
+            <param name="x">The x component</param>
+            <param name="y">The y component</param>
+        </member>
+        <member name="T:MagicUI.Core.Visibility">
+            <summary>
+            Types of element visibility
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.Visibility.Visible">
+            <summary>
+            The element is visible
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.Visibility.Hidden">
+            <summary>
+            The element is still visible to the layout system (i.e. for measurement and arrangement), but not to the user
+            </summary>
+        </member>
+        <member name="F:MagicUI.Core.Visibility.Collapsed">
+            <summary>
+            The element is not visible to the layout system (i.e. for measurement and arrangment) or the user
+            </summary>
+        </member>
+        <member name="T:MagicUI.Elements.Button">
+            <summary>
+            A button element
+            </summary>
+        </member>
+        <member name="E:MagicUI.Elements.Button.Click">
+            <summary>
+            Event that fires when the button is clicked
+            </summary>
+        </member>
+        <member name="E:MagicUI.Elements.Button.OnHover">
+            <summary>
+            Event that fires when the button is hovered over, either by mouse or controller inputs.
+            </summary>
+        </member>
+        <member name="E:MagicUI.Elements.Button.OnUnhover">
+            <summary>
+            Event that fires when the button stops being hovered over, either by mouse or controller inputs.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.Margin">
+            <summary>
+            The internal margin between the button's content and its border
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.Content">
+            <summary>
+            The button's content
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.Borderless">
+            <summary>
+            Whether the button should be displayed in a borderless style.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.BorderColor">
+            <summary>
+            The border color of the button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.ContentColor">
+            <summary>
+            The color of the text in the button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.MinWidth">
+            <summary>
+            The minimum width of the button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.MinHeight">
+            <summary>
+            The minimum height of the button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.Font">
+            <summary>
+            The font to use to display the content
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.FontSize">
+            <summary>
+            The font size of the content
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Button.Enabled">
+            <summary>
+            Whether the button is enabled
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.Button.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a button
+            </summary>
+            <param name="onLayout">The layout root to draw the button on</param>
+            <param name="name">The name of the button</param>
+        </member>
+        <member name="P:MagicUI.Elements.Button.GameObject">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Button.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Button.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Button.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Button.GetSelectable">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.CanvasLayout">
+            <summary>
+            A layout that places elements absolutely in screen space.
+            </summary>
+            <remarks>
+            Usually this is not a very idiomatic way to use MagicUI, but is helpful in the rare cases where you just need to move things around by hand.
+            One particularly good use case for this is to ease migrations for people who have existing CanvasUtil UIs and want to migrate to create
+            more complex layouts. <br/><br/>
+            This layout has some unusual properties to be aware of compared to other elements:
+            <ul>
+            <li>Because this layout will request to fill the entire screen, it may create unexpected results if it is set as the child of another element, and changing
+            its alignment and padding may result in children being placed off-screen</li>
+            <li>The alignment of children will not have any effect, as it will be arranged at its offset with exactly its effective size</li>
+            <li>The right and bottom paddings of children will not have any effect. It's recommended to use <see cref="F:MagicUI.Elements.CanvasLayout.XOffset"/> and <see cref="F:MagicUI.Elements.CanvasLayout.YOffset"/>
+            attached properties instead of padding to position children.</li>
+            </ul>
+            </remarks>
+        </member>
+        <member name="F:MagicUI.Elements.CanvasLayout.XOffset">
+            <summary>
+            The child's X offset in the canvas
+            </summary>
+        </member>
+        <member name="F:MagicUI.Elements.CanvasLayout.YOffset">
+            <summary>
+            The child's Y offset in the canvas
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.CanvasLayout.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a canvas layout
+            </summary>
+            <param name="onLayout">The layout root to draw the stack layout on</param>
+            <param name="name">The name of the stack layout</param>
+        </member>
+        <member name="M:MagicUI.Elements.CanvasLayout.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.CanvasLayout.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.CanvasLayout.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.DynamicUniformGrid">
+            <summary>
+            A layout that places elements adjacent to each other in a grid with a dynamic number of rows/columns
+            </summary>
+            <remarks>
+            Each panel in the grid is the size of the largest element; the grid will be as large as needed to fit one panel per
+            child with the required number of rows/columns and spacing based on the specified parameters
+            </remarks>
+        </member>
+        <member name="P:MagicUI.Elements.DynamicUniformGrid.VerticalSpacing">
+            <summary>
+            The layout's spacing between rows
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.DynamicUniformGrid.HorizontalSpacing">
+            <summary>
+            The layout's spacing between columns
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.DynamicUniformGrid.Orientation">
+            <summary>
+            The orientation/flow direction of the layout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.DynamicUniformGrid.ChildrenBeforeRollover">
+            <summary>
+            The number of children before spilling over to the next row/column. In other words, the maximum number
+            of columns if <see cref="P:MagicUI.Elements.DynamicUniformGrid.Orientation"/> is <see cref="F:MagicUI.Core.Orientation.Vertical"/>, or the maximum number of
+            rows if <see cref="P:MagicUI.Elements.DynamicUniformGrid.Orientation"/> is <see cref="F:MagicUI.Core.Orientation.Horizontal"/>
+            </summary>
+            <remarks>
+            By default, the value is 2, and cannot be set lower. If you want to use this with one row/column,
+            you should use a <see cref="T:MagicUI.Elements.StackLayout"/> instead
+            </remarks>
+        </member>
+        <member name="M:MagicUI.Elements.DynamicUniformGrid.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a dynamic uniform grid layout
+            </summary>
+            <param name="onLayout">The layout root to draw the grid on</param>
+            <param name="name">The name of the grid</param>
+        </member>
+        <member name="M:MagicUI.Elements.DynamicUniformGrid.RepackInFlowOrder(UnityEngine.Vector2)">
+            <summary>
+            Repackages an XY vector in order based on the flow direction/orientation - whichever direction will stretch
+            is returned in the X component, while the fixed size direction will be the Y component. Note that this function
+            is its own inverse.
+            </summary>
+            <param name="xyVector">The vector to repackage</param>
+            <returns>If orientation is horizontal, (X, Y). If orientation is vertical, (Y, X)</returns>
+        </member>
+        <member name="M:MagicUI.Elements.DynamicUniformGrid.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.DynamicUniformGrid.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.DynamicUniformGrid.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.GridUnit">
+            <summary>
+            Units of measure for grid rows and columns
+            </summary>
+        </member>
+        <member name="F:MagicUI.Elements.GridUnit.AbsoluteMin">
+            <summary>
+            An absolute minimum size value in screen-relative pixels
+            </summary>
+        </member>
+        <member name="F:MagicUI.Elements.GridUnit.Proportional">
+            <summary>
+            A size defined proportional to other rows/columns with proportional units
+            </summary>
+        </member>
+        <member name="T:MagicUI.Elements.GridDimension">
+            <summary>
+            A measure of a grid row/column with a unitt
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.GridDimension.Size">
+            <summary>
+            The size of the dimension
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.GridDimension.Unit">
+            <summary>
+            The unit of the dimension
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.GridDimension.#ctor(System.Single,MagicUI.Elements.GridUnit)">
+            <summary>
+            Convenience constructor to initialize a GridDimension
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.GridDimension.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.GridLayout">
+            <summary>
+            A generic grid layout with user-specified rows and columns
+            </summary>
+            <remarks>
+            Grid rows and columns are sized semi-dynamically. A row/column with the unit AbsoluteMin will be sized at the specified size and
+            grow to fit children as needed. If a child spans multiple of these rows/columns, each row/column will be allocated height/width
+            proportional to the child's size (assuming it needs to grow at all). Rows/columns with the Proportional unit will proportionally split
+            the remaining available minimum width/height, and grow with each other in step until all children are able to fit.
+            </remarks>
+        </member>
+        <member name="F:MagicUI.Elements.GridLayout.Row">
+            <summary>
+            Attached property for row. This is the first row that the item will appear in the grid. Defaults to 0 and is capped
+            at the last row.
+            </summary>
+        </member>
+        <member name="F:MagicUI.Elements.GridLayout.Column">
+            <summary>
+            Attached property for column. This is the first column that the item will appear in the grid. Defaults to 0 and is capped
+            at the last column.
+            </summary>
+        </member>
+        <member name="F:MagicUI.Elements.GridLayout.RowSpan">
+            <summary>
+            Attached property for row span. This is the maximum number of rows that an item will occupy. Defaults to 1.
+            </summary>
+        </member>
+        <member name="F:MagicUI.Elements.GridLayout.ColumnSpan">
+            <summary>
+            Attached property for column span. This is the maximum number of columns that an item will occupy. Defaults to 1.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.GridLayout.RowDefinitions">
+            <summary>
+            Definition of the number of rows, their sizes, and their types. By default this is empty. If the grid is measured
+            with empty row definitions, one will be added for you with a minimum height of 0px.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.GridLayout.ColumnDefinitions">
+            <summary>
+            Definition of the number of columns, their sizes, and their types. By default this is empty. If the grid is measured
+            with empty column definitions, one will be added for you with a minimum height of 0px.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.GridLayout.MinWidth">
+            <summary>
+            The minimum width to be occupied by the grid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.GridLayout.MinHeight">
+            <summary>
+            The minimum height to be occupied by the grid
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.GridLayout.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a grid layout
+            </summary>
+            <param name="onLayout">The layout root to draw the grid layout on</param>
+            <param name="name">the name of the grid layout</param>
+        </member>
+        <member name="M:MagicUI.Elements.GridLayout.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.GridLayout.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.GridLayout.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.Image">
+            <summary>
+            A simple image element
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Image.GameObject">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Elements.Image.Width">
+            <summary>
+            The desired width of the image; it will be scaled as needed
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Image.Height">
+            <summary>
+            The desired height of the image; it will be scaled as needed
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Image.PreserveAspectRatio">
+            <summary>
+            Whether to preserve the aspect ratio of the image when scaling
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Image.Tint">
+            <summary>
+            A color to apply over top of the image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Image.Sprite">
+            <summary>
+            The current sprite underlying the image
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.Image.#ctor(MagicUI.Core.LayoutRoot,UnityEngine.Sprite,System.String)">
+            <summary>
+            Creates an image
+            </summary>
+            <param name="onLayout">The layout root to draw the image on</param>
+            <param name="sprite">The sprite to use to render the image</param>
+            <param name="name">The name of the image element</param>
+        </member>
+        <member name="M:MagicUI.Elements.Image.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Image.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Image.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.Panel">
+            <summary>
+            A container that overlays a single element on top of a background image. The background will always be scaled to surround
+            the element. To have a Sprite scale without stretching its borders, use <see cref="M:MagicUI.Graphics.TextureExtensions.ToSlicedSprite(UnityEngine.Texture2D,System.Single,System.Single,System.Single,System.Single)"/> to create the sprite.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Panel.MinWidth">
+            <summary>
+            The minimum width of the background
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Panel.MinHeight">
+            <summary>
+            The minimum height of the background
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.Panel.Borders">
+            <summary>
+            How far around the enclosed element the background will stretch to (left, top, right, bottom)
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.Panel.#ctor(MagicUI.Core.LayoutRoot,UnityEngine.Sprite,System.String)">
+            <summary>
+            Creates a panel
+            </summary>
+            <param name="onLayout">The layout root to draw the panel on</param>
+            <param name="background">The sprite of the background</param>
+            <param name="name">The name of the panel</param>
+        </member>
+        <member name="M:MagicUI.Elements.Panel.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Panel.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.Panel.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.ProgressBar">
+            <summary>
+            A horizontal progress bar. Note that this element only manages the filling image and value,
+            for a more visually complex progress bar (e.g. with a border), use a <see cref="T:MagicUI.Elements.Panel"/> (recommended)
+            or <see cref="T:MagicUI.Elements.GridLayout"/> to overlay the progress bar on a border image.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.ProgressBar.GameObject">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Elements.ProgressBar.Width">
+            <summary>
+            The desired width of the progress bar; it will be scaled as needed
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.ProgressBar.Height">
+            <summary>
+            The desired height of the progress bar; it will be scaled as needed
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.ProgressBar.Value">
+            <summary>
+            The value of the progress bar, as a percentage
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.ProgressBar.Tint">
+            <summary>
+            A color to apply over top of the progress bar's image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.ProgressBar.Sprite">
+            <summary>
+            The current sprite underlying the progress bar
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.ProgressBar.#ctor(MagicUI.Core.LayoutRoot,UnityEngine.Sprite,System.String)">
+            <summary>
+            Creates a progress bar
+            </summary>
+            <param name="onLayout">The layout root to draw the progress bar on</param>
+            <param name="sprite">The sprite to use to render the progress bar</param>
+            <param name="name">The name of the progress bar element</param>
+        </member>
+        <member name="M:MagicUI.Elements.ProgressBar.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.ProgressBar.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.ProgressBar.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.StackLayout">
+            <summary>
+            A layout that places elements adjacent to each other with optional spacing between each element
+            </summary>
+            <remarks>
+            Each panel will be as large as the largest child in one direction, and as large as the child in the panel
+            in the other direction. The panel will be as large as needed to fit each child with the specified spacing and orientation
+            </remarks>
+        </member>
+        <member name="P:MagicUI.Elements.StackLayout.Spacing">
+            <summary>
+            The spacing between elements in this layout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.StackLayout.Orientation">
+            <summary>
+            The orientation/flow direction of the layout
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.StackLayout.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a stack layout
+            </summary>
+            <param name="onLayout">The layout root to draw the stack layout on</param>
+            <param name="name">The name of the stack layout</param>
+        </member>
+        <member name="M:MagicUI.Elements.StackLayout.RepackInFlowOrder(UnityEngine.Vector2)">
+            <summary>
+            Repackages an XY vector in order based on the flow direction/orientation - whichever direction will stretch
+            is returned in the X component, while the fixed size direction will be the Y component. Note that this function
+            is its own inverse.
+            </summary>
+            <param name="xyVector">The vector to repackage</param>
+            <returns>If orientation is horizontal, (X, Y). If orientation is vertical, (Y, X)</returns>
+        </member>
+        <member name="M:MagicUI.Elements.StackLayout.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.StackLayout.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.StackLayout.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.TextFormatter`1">
+            <summary>
+            An element that formats an underlying <see cref="T:MagicUI.Elements.TextObject"/> according to a formatter for an immutable data type
+            </summary>
+            <typeparam name="T">The type of data to format</typeparam>
+        </member>
+        <member name="P:MagicUI.Elements.TextFormatter`1.Data">
+            <summary>
+            The data to be formatted. This should be treated as immutable data to update properly. In other words,
+            <code>Data.X = Y</code> will not trigger an update, but <code>Data = new(...)</code> will.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextFormatter`1.Text">
+            <summary>
+            The underlying <see cref="T:MagicUI.Elements.TextObject"/> to be formatted. You control all other properties of the TextObject directly,
+            this element will control the <see cref="P:MagicUI.Elements.TextObject.Text"/> property via <see cref="P:MagicUI.Elements.TextFormatter`1.Data"/>
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.TextFormatter`1.#ctor(MagicUI.Core.LayoutRoot,`0,System.Func{`0,System.String},System.String)">
+            <summary>
+            Creates a text formatter
+            </summary>
+            <param name="onLayout">The layout to draw the text formatter on</param>
+            <param name="initialValue">The initial data value</param>
+            <param name="formatter">A function to use to format text</param>
+            <param name="name">The name of the text formatter</param>
+        </member>
+        <member name="M:MagicUI.Elements.TextFormatter`1.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextFormatter`1.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextFormatter`1.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextFormatter`1.HandleChildDestroyed(MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.TextInput">
+            <summary>
+            A text input element
+            </summary>
+        </member>
+        <member name="E:MagicUI.Elements.TextInput.TextEditFinished">
+            <summary>
+            Event that fires when the edit is completed, e.g. by clicking off the element. Sends this input and its current text.
+            </summary>
+        </member>
+        <member name="E:MagicUI.Elements.TextInput.TextChanged">
+            <summary>
+            Event that fires when the text changes, e.g. when a key is entered. Sends this input and its current text.
+            </summary>
+        </member>
+        <member name="E:MagicUI.Elements.TextInput.OnHover">
+            <summary>
+            Event that fires when the text input is hovered over, either by mouse or controller inputs.
+            </summary>
+        </member>
+        <member name="E:MagicUI.Elements.TextInput.OnUnhover">
+            <summary>
+            Event that fires when the text input stops being hovered over, either by mouse or controller inputs.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.GameObject">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.TextAlignment">
+            <summary>
+            The alignment of the text within this element
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.FontSize">
+            <summary>
+            The font size for the text
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.Font">
+            <summary>
+            The font to use to draw text
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.Placeholder">
+            <summary>
+            The placeholder text shown when the input is empty
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.Text">
+            <summary>
+            The content of the text input
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.ContentType">
+            <summary>
+            The content type of the input. MagicUI does not provide API support for <see cref="F:UnityEngine.UI.InputField.ContentType.Custom"/>
+            at this time.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.IconColor">
+            <summary>
+            The color of the quill icon
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.UnderlineColor">
+            <summary>
+            The color of the underline
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.Borderless">
+            <summary>
+            Whether the text input should be displayed in a borderless style.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.ContentColor">
+            <summary>
+            The color of the text
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.PlaceholderColor">
+            <summary>
+            The color of the placeholder
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.MinWidth">
+            <summary>
+            The minimum width of the text input
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.IconSpacing">
+            <summary>
+            The spacing between the quill icon
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextInput.Enabled">
+            <summary>
+            Whether the input is enabled
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.TextInput.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a text input
+            </summary>
+            <param name="onLayout">The layout to draw the input on</param>
+            <param name="name">The name of the input</param>
+        </member>
+        <member name="M:MagicUI.Elements.TextInput.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextInput.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextInput.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextInput.SelectAndActivate">
+            <summary>
+            Selects and activates the text input.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.TextInput.Deactivate">
+            <summary>
+            Deactivates the text input.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.TextInput.GetSelectable">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Elements.TextObject">
+            <summary>
+            A text display element
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.GameObject">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.MeasureIsResolutionSensitive">
+            <inheritdoc/>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.Text">
+            <summary>
+            The text of this element
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.TextAlignment">
+            <summary>
+            The alignment of the text within this element
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.Font">
+            <summary>
+            The font to use to draw text
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.FontSize">
+            <summary>
+            The font size for the text
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.ContentColor">
+            <summary>
+            The color of the text
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.MaxWidth">
+            <summary>
+            The max width of the text. If text exceeds this width, it will roll to the next line.
+            </summary>
+        </member>
+        <member name="P:MagicUI.Elements.TextObject.MaxHeight">
+            <summary>
+            The max height of the text. If text exceeds this height, it will be clipped.
+            </summary>
+        </member>
+        <member name="M:MagicUI.Elements.TextObject.#ctor(MagicUI.Core.LayoutRoot,System.String)">
+            <summary>
+            Creates a text object
+            </summary>
+            <param name="onLayout">The layout to draw the text object on</param>
+            <param name="name">The name of the text object</param>
+        </member>
+        <member name="M:MagicUI.Elements.TextObject.MeasureOverride">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextObject.ArrangeOverride(UnityEngine.Vector2)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.Elements.TextObject.DestroyOverride">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Graphics.BuiltInSprites">
+            <summary>
+            A registry of available common built-in sprites
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.BuiltInSprites.CreateSlicedBorderRect">
+            <summary>
+            Creates a sliced sprite for a scalable border with rounded corners
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.BuiltInSprites.CreateSlicedTransparentRect">
+            <summary>
+            Creates a sliced sprite for a scalable transparent border
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.BuiltInSprites.CreateSlicedUnderline">
+            <summary>
+            Creates a sliced sprite for a scalable underline
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.BuiltInSprites.CreateQuill">
+            <summary>
+            Creates a standard sprite of the a white quill
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.BuiltInSprites.CreateBox">
+            <summary>
+            Creates a standard sprite of a 40x40 white box for general use
+            </summary>
+        </member>
+        <member name="T:MagicUI.Graphics.TextureExtensions">
+            <summary>
+            Extension methods for textures
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.TextureExtensions.ToSprite(UnityEngine.Texture2D)">
+            <summary>
+            Creates a basic full-size sprite from a texture
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.TextureExtensions.ToSlicedSprite(UnityEngine.Texture2D,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a sliced sprite from a texture with the specified borders
+            </summary>
+        </member>
+        <member name="T:MagicUI.Graphics.TextureLoader">
+            <summary>
+            Streamlines loading textures embedded in your assembly for usage with UI elements, such as buttons, borders, or images
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.TextureLoader.#ctor(System.Reflection.Assembly,System.String)">
+            <summary>
+            Creates a texture loader for a given namespace
+            </summary>
+            <param name="asm">The assembly to load from</param>
+            <param name="resourceNamespace">The namespace to load the resource from</param>
+        </member>
+        <member name="M:MagicUI.Graphics.TextureLoader.LoadEmbeddedTexture(System.String)">
+            <summary>
+            Internal helper to load a texture
+            </summary>
+            <param name="resourceName">The filename of the texture</param>
+            <returns>The loaded texture</returns>
+        </member>
+        <member name="M:MagicUI.Graphics.TextureLoader.Preload">
+            <summary>
+            Preloads all textures in this loader's namespace
+            </summary>
+        </member>
+        <member name="M:MagicUI.Graphics.TextureLoader.GetTexture(System.String)">
+            <summary>
+            Gets the texture for the given file name, loading it first if needed
+            </summary>
+            <param name="name">The filename of the image to load</param>
+            <returns>The loaded texture</returns>
+        </member>
+        <member name="M:MagicUI.Graphics.TextureLoader.DisposeTexture(System.String)">
+            <summary>
+            Cleans up the texture with the given file name if it is loaded
+            </summary>
+            <param name="name">The filename of the image to dispose</param>
+        </member>
+        <member name="T:MagicUI.MagicUIGlobalSettings">
+            <summary>
+            Global settings
+            </summary>
+        </member>
+        <member name="P:MagicUI.MagicUIGlobalSettings.LogLayoutInformation">
+            <summary>
+            Whether layout information should be logged (default false)
+            </summary>
+        </member>
+        <member name="P:MagicUI.MagicUIGlobalSettings.LogLevel">
+            <summary>
+            If layout information is to be logged (see <see cref="P:MagicUI.MagicUIGlobalSettings.LogLayoutInformation"/>), the logging level that should be use (default <see cref="F:Modding.LogLevel.Fine"/>)
+            </summary>
+        </member>
+        <member name="T:MagicUI.MagicUIMod">
+            <summary>
+            Base mod class
+            </summary>
+        </member>
+        <member name="P:MagicUI.MagicUIMod.GlobalSettings">
+            <summary>
+            Global settings for the mod
+            </summary>
+        </member>
+        <member name="M:MagicUI.MagicUIMod.GetVersion">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.MagicUIMod.#ctor">
+            <summary>
+            Instantiates the mod instance
+            </summary>
+        </member>
+        <member name="M:MagicUI.MagicUIMod.OnLoadGlobal(MagicUI.MagicUIGlobalSettings)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MagicUI.MagicUIMod.OnSaveGlobal">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.StylableAttribute">
+            <summary>
+            Indicates that a style should be generated for a given class.
+            </summary>
+        </member>
+        <member name="T:MagicUI.Styles.StyleIgnoreAttribute">
+            <summary>
+            Indicates that a property of a class should not be included in the style.
+            </summary>
+        </member>
+        <member name="T:MagicUI.Styles.IStyle`1">
+            <summary>
+            A generic style that can apply a set of modifications to an object
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.IStyle`1.Apply(`0)">
+            <summary>
+            Applies the style to the target object
+            </summary>
+            <param name="target">The object to apply the style to</param>
+        </member>
+        <member name="T:MagicUI.Styles.ArrangableElementStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Core.ArrangableElement"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ArrangableElementStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the ArrangableElement
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ArrangableElementStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the ArrangableElement
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ArrangableElementStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the ArrangableElement
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ArrangableElementStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the ArrangableElement
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.ArrangableElementStyle.#ctor(MagicUI.Core.ArrangableElement)">
+            <summary>
+            Creates a style based on the stylable properties of the base ArrangableElement
+            </summary>
+            <param name="source">The base ArrangableElement to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.ArrangableElementStyle.Apply(MagicUI.Core.ArrangableElement)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.ButtonStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Elements.Button"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.Margin">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.Margin"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.Borderless">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.Borderless"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.BorderColor">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.BorderColor"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.ContentColor">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.ContentColor"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.MinWidth">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.MinWidth"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.MinHeight">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.MinHeight"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.Font">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.Font"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.FontSize">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Button.FontSize"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the Button
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ButtonStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the Button
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.ButtonStyle.#ctor(MagicUI.Elements.Button)">
+            <summary>
+            Creates a style based on the stylable properties of the base Button
+            </summary>
+            <param name="source">The base Button to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.ButtonStyle.Apply(MagicUI.Elements.Button)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.DynamicUniformGridStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Elements.DynamicUniformGrid"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.VerticalSpacing">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.DynamicUniformGrid.VerticalSpacing"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.HorizontalSpacing">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.DynamicUniformGrid.HorizontalSpacing"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.Orientation">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.DynamicUniformGrid.Orientation"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.ChildrenBeforeRollover">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.DynamicUniformGrid.ChildrenBeforeRollover"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.DynamicUniformGridStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the DynamicUniformGrid
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.DynamicUniformGridStyle.#ctor(MagicUI.Elements.DynamicUniformGrid)">
+            <summary>
+            Creates a style based on the stylable properties of the base DynamicUniformGrid
+            </summary>
+            <param name="source">The base DynamicUniformGrid to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.DynamicUniformGridStyle.Apply(MagicUI.Elements.DynamicUniformGrid)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.ImageStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Elements.Image"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.Width">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Image.Width"/> property of the Image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.Height">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Image.Height"/> property of the Image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.PreserveAspectRatio">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Image.PreserveAspectRatio"/> property of the Image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.Tint">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Image.Tint"/> property of the Image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the Image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the Image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the Image
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ImageStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the Image
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.ImageStyle.#ctor(MagicUI.Elements.Image)">
+            <summary>
+            Creates a style based on the stylable properties of the base Image
+            </summary>
+            <param name="source">The base Image to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.ImageStyle.Apply(MagicUI.Elements.Image)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.PanelStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Elements.Panel"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.PanelStyle.MinWidth">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Panel.MinWidth"/> property of the Panel
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.PanelStyle.MinHeight">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Panel.MinHeight"/> property of the Panel
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.PanelStyle.Borders">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.Panel.Borders"/> property of the Panel
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.PanelStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the Panel
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.PanelStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the Panel
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.PanelStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the Panel
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.PanelStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the Panel
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.PanelStyle.#ctor(MagicUI.Elements.Panel)">
+            <summary>
+            Creates a style based on the stylable properties of the base Panel
+            </summary>
+            <param name="source">The base Panel to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.PanelStyle.Apply(MagicUI.Elements.Panel)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.ProgressBarStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Elements.ProgressBar"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.Width">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.ProgressBar.Width"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.Height">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.ProgressBar.Height"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.Value">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.ProgressBar.Value"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.Tint">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.ProgressBar.Tint"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.ProgressBarStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the ProgressBar
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.ProgressBarStyle.#ctor(MagicUI.Elements.ProgressBar)">
+            <summary>
+            Creates a style based on the stylable properties of the base ProgressBar
+            </summary>
+            <param name="source">The base ProgressBar to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.ProgressBarStyle.Apply(MagicUI.Elements.ProgressBar)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.StackLayoutStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Elements.StackLayout"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.StackLayoutStyle.Spacing">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.StackLayout.Spacing"/> property of the StackLayout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.StackLayoutStyle.Orientation">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.StackLayout.Orientation"/> property of the StackLayout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.StackLayoutStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the StackLayout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.StackLayoutStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the StackLayout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.StackLayoutStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the StackLayout
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.StackLayoutStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the StackLayout
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.StackLayoutStyle.#ctor(MagicUI.Elements.StackLayout)">
+            <summary>
+            Creates a style based on the stylable properties of the base StackLayout
+            </summary>
+            <param name="source">The base StackLayout to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.StackLayoutStyle.Apply(MagicUI.Elements.StackLayout)">
+            <inheritdoc/>
+        </member>
+        <member name="T:MagicUI.Styles.TextInputStyle">
+            <summary>
+            Generated styles for a <see cref="T:MagicUI.Elements.TextInput"/>
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.TextAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.TextAlignment"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.FontSize">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.FontSize"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.Font">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.Font"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.Placeholder">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.Placeholder"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.Text">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.Text"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.ContentType">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.ContentType"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.IconColor">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.IconColor"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.UnderlineColor">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.UnderlineColor"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.Borderless">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.Borderless"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.ContentColor">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.ContentColor"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.PlaceholderColor">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.PlaceholderColor"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.MinWidth">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.MinWidth"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.IconSpacing">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.IconSpacing"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.Enabled">
+            <summary>
+            Controls the <see cref="P:MagicUI.Elements.TextInput.Enabled"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.HorizontalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.HorizontalAlignment"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.VerticalAlignment">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.VerticalAlignment"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.Visibility">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Visibility"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="P:MagicUI.Styles.TextInputStyle.Padding">
+            <summary>
+            Controls the <see cref="P:MagicUI.Core.ArrangableElement.Padding"/> property of the TextInput
+            </summary>
+        </member>
+        <member name="M:MagicUI.Styles.TextInputStyle.#ctor(MagicUI.Elements.TextInput)">
+            <summary>
+            Creates a style based on the stylable properties of the base TextInput
+            </summary>
+            <param name="source">The base TextInput to derive the properties from</param>
+        </member>
+        <member name="M:MagicUI.Styles.TextInputStyle.Apply(MagicUI.Elements.TextInput)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

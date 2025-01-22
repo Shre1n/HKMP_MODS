@@ -1,0 +1,692 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HkmpPouch</name>
+    </assembly>
+    <members>
+        <member name="T:HkmpPouch.Constants">
+            <summary>
+            Defines some constants
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Constants.Priority">
+            <summary>
+            Load Priority of the Mod
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Constants.Name">
+            <summary>
+            Name of the HKMP Addon
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Constants.Version">
+            <summary>
+            Version of the HKMP Addon
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Constants.ActualVersion">
+            <summary>
+            Version of the Pipe
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Constants.AllScenes">
+            <summary>
+            String denoting All scenes
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Constants.SameScenes">
+            <summary>
+            String denoting Same scene
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListUpdateEventArgs">
+            <summary>
+            AppendOnlyList Update EventArgs
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListUpdateEventArgs.data">
+            <summary>
+            The Append only list of strings
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient">
+            <summary>
+            The AppendOnlyListClient class
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient.Name">
+            <summary>
+            The Name of the AppendOnlyList
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient.ListData">
+            <summary>
+            The current list data
+            </summary>
+        </member>
+        <member name="E:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient.OnUpdate">
+            <summary>
+            Event fired when AppendOnlyList is updated
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient.#ctor(HkmpPouch.PipeClient,System.String)">
+            <summary>
+            Creates a Server-backed shared list of strings that can only be appended to
+            </summary>
+            <param name="pipe"> A PipeClient to use to maintain the counter</param>
+            <param name="name"> Name of the AppendOnlyList </param>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient.Add(System.String,System.Int32)">
+            <summary>
+            Add an Item to the list
+            </summary>
+            <param name="item">The item to add</param>
+            <param name="ttl">The number of seconds the item should be preserved on the server</param>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient.GetAll">
+            <summary>
+            Get the entire AppendOnlyList
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.AppendOnlyList.AppendOnlyListClient.Destory">
+            <summary>
+            Destroy the AppendOnlyListClient safely
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.DataStorage.Counter.CounterUpdateEventArgs">
+            <summary>
+            Counter Update Event Args
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.DataStorage.Counter.CounterUpdateEventArgs.Count">
+            <summary>
+            Current Value of the counter
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.DataStorage.Counter.CounterEvents">
+            <summary>
+            Constants for Counter Event Names
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.DataStorage.Counter.CounterClient">
+            <summary>
+            The CounterClient class
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.DataStorage.Counter.CounterClient.Name">
+            <summary>
+            Name of the counter
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.DataStorage.Counter.CounterClient.Count">
+            <summary>
+            Last updated Counter value
+            </summary>
+        </member>
+        <member name="E:HkmpPouch.DataStorage.Counter.CounterClient.OnUpdate">
+            <summary>
+            Event fired when Counter is updated
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.Counter.CounterClient.#ctor(HkmpPouch.PipeClient,System.String)">
+            <summary>
+            Creates a Server-backed shared counter
+            </summary>
+            <param name="pipe"> A PipeClient to use to maintain the counter</param>
+            <param name="name"> Name of the counter </param>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.Counter.CounterClient.Get">
+            <summary>
+            Get the currently latest value from the server
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.Counter.CounterClient.Increment(System.UInt16)">
+            <summary>
+            Increment the counter value
+            </summary>
+            <param name="value">The value to increment by</param>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.Counter.CounterClient.Decrement(System.UInt16)">
+            <summary>
+            Decrement the counter value
+            </summary>
+            <param name="value">The value to decrement by</param>
+        </member>
+        <member name="M:HkmpPouch.DataStorage.Counter.CounterClient.Destroy">
+            <summary>
+            Destroy the CounterClient safely
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.baseEventData">
+            <summary>
+            Basic data All events must have
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.IsReliable">
+            <summary>
+            If the packet was marked IsReliable
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.SceneName">
+            <summary>
+            Name of the scene the data was meant to be sent to
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.ToPlayer">
+            <summary>
+            The Id of the player the data was sent to
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.FromPlayer">
+            <summary>
+            The Id of the player the data was sent from
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.ModName">
+            <summary>
+            Name of the Pipe
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.EventName">
+            <summary>
+            Name of the Event
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.EventData">
+            <summary>
+            Corresponding EventData
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.baseEventData.ExtraBytes">
+            <summary>
+            Extra Bytes sent with the event
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.PipeEvent">
+            <summary>
+            The Type Denoting an event
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.PipeEvent.GetName">
+            <summary>
+            Gets the Name of the Event
+            </summary>
+            <returns>The name</returns>
+        </member>
+        <member name="M:HkmpPouch.PipeEvent.ToString">
+            <summary>
+            Convert the event into it's string representation
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:HkmpPouch.IEventFactory">
+            <summary>
+            A Factory that can generate PipeEvents given the correct string representation
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.IEventFactory.GetName">
+            <summary>
+            Gets the Name of the Event
+            </summary>
+            <returns>The name</returns>
+        </member>
+        <member name="M:HkmpPouch.IEventFactory.FromSerializedString(System.String)">
+            <summary>
+            Used to instantiate a PipeEvent from a string representation
+            </summary>
+            <param name="serializedData">string representation</param>
+            <returns>the PipeEvent</returns>
+        </member>
+        <member name="T:HkmpPouch.EventContainer">
+            <summary>
+            Data received
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.EventContainer.Event">
+            <summary>
+            Deserialised Event object from event data using an IEventFactory
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.OnEvent">
+            <summary>
+            Used to chainably listen to events
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.OnEvent.Destroyed">
+            <summary>
+            Bool determining if the OnEvent is already destroyed
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.OnEvent.#ctor">
+            <summary>
+            Constructs the OnEvent
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.OnEvent.TriggerWith(HkmpPouch.EventContainer)">
+            <summary>
+            Trigger the event
+            </summary>
+            <param name="Data">Data to trigger the event with</param>
+        </member>
+        <member name="M:HkmpPouch.OnEvent.DoOnce(System.Action{HkmpPouch.PipeEvent})">
+            <summary>
+            Do the callback once the first matching event is triggered
+            </summary>
+            <param name="Callback">Callback to run</param>
+            <returns>this OnEvent for chaining</returns>
+        </member>
+        <member name="M:HkmpPouch.OnEvent.Do``1(System.Action{``0})">
+            <summary>
+            Do the callback every time the a matching event is triggered
+            </summary>
+            <param name="Callback">Callback to run</param>
+            <returns>this OnEvent for chaining</returns>
+        </member>
+        <member name="M:HkmpPouch.OnEvent.Do(System.Action{HkmpPouch.PipeEvent})">
+            <summary>
+            Do the callback every time the a matching event is triggered
+            </summary>
+            <param name="Callback">Callback to run</param>
+            <returns>this OnEvent for chaining</returns>
+        </member>
+        <member name="M:HkmpPouch.OnEvent.Destroy">
+            <summary>
+            Removes all existing listeners from the OnEvent
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.OnAble">
+            <summary>
+            OnAble class that allows for Events handling using callbacks
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.OnAble.On(HkmpPouch.IEventFactory)">
+            <summary>
+            Listen to Events of type EventContainer with a given Event Factory
+            </summary>
+            <param name="Factory">name of the event to Listen to</param>
+            <returns>returns an OnEvent object that allows you to respond to the event</returns>
+        </member>
+        <member name="M:HkmpPouch.OnAble.TriggerEvents(System.String,HkmpPouch.EventContainer)">
+            <summary>
+            Used to actually trigger the events that your Listeners can recieve
+            </summary>
+            <param name="EventName">Name of the event</param>
+            <param name="RecievedEvent">Event payload</param>
+        </member>
+        <member name="M:HkmpPouch.OnAble.Destroy">
+            <summary>
+            Used to dispose off all the existing listeners
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Game.Interactable.needsExplicitInput">
+            <summary>
+            Determines if trigger enter must be used or an interact prompt must be shown
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.Game.Interactable.OnTrigger">
+            <summary>
+            Handles the user interaction by sending it to the server
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.HkmpPouch">
+            <summary>
+            The Mod class for loading in game
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.HkmpPouch.LoadPriority">
+            <summary>
+            LoadPriority of the Mod
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HkmpPouch.HkmpPouch.GetName">
+            <summary>
+            Name of the Mod
+            </summary>
+            <returns>Name of the Mod</returns>
+        </member>
+        <member name="M:HkmpPouch.HkmpPouch.GetVersion">
+            <summary>
+            Version of the mod
+            </summary>
+            <returns>Version of the mod</returns>
+        </member>
+        <member name="M:HkmpPouch.HkmpPouch.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.HkmpPouch.Initialize(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,UnityEngine.GameObject}})">
+            <summary>
+            The Initialize function for this mod
+            </summary>
+            <param name="preloadedObjects">preloadedObjects</param>
+        </member>
+        <member name="T:HkmpPouch.Logger">
+            <summary>
+            The logger class
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.Logger.StupidError(System.String)">
+            <summary>
+            StupidError will try to log an error, it will not print what addon tried to print the error because it does not know.
+            </summary>
+            <param name="text">The error to log</param>
+        </member>
+        <member name="M:HkmpPouch.Logger.Debug(System.String)">
+            <summary>
+            Use for Debugging logs
+            </summary>
+            <param name="str">string to log</param>
+        </member>
+        <member name="M:HkmpPouch.Logger.Error(System.String)">
+            <summary>
+            Use for Logging Erros
+            </summary>
+            <param name="str">string to log</param>
+        </member>
+        <member name="M:HkmpPouch.Logger.Info(System.String)">
+            <summary>
+            Use for Logging non fatal stuff
+            </summary>
+            <param name="str">string to log</param>
+        </member>
+        <member name="T:HkmpPouch.Multipart.MultipartContentManager">
+            <summary>
+            Allows handling transmission of arbitrary byte[] in parts
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Multipart.MultipartContentManager.SendContentRequest">
+            <summary>
+            Action that must actually send the content request to the correct client/server
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Multipart.MultipartContentManager.ContentRequestHandler">
+            <summary>
+            Action that must handle sending the requested content from the sending side
+            </summary>
+        </member>
+        <member name="F:HkmpPouch.Multipart.MultipartContentManager.ContentReceivedHandler">
+            <summary>
+            Action that is called with the requested data on the receiver side
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.Multipart.MultipartContentManager.#ctor(HkmpPouch.OnAble)">
+            <summary>
+            ctor
+            </summary>
+            <param name="pipe"></param>
+        </member>
+        <member name="M:HkmpPouch.Multipart.MultipartContentManager.RequestContent(System.String)">
+            <summary>
+            Used to request the content over the network
+            </summary>
+            <param name="contentId"></param>
+        </member>
+        <member name="M:HkmpPouch.Multipart.MultipartContentManager.RegisterContent(System.String,System.Byte[])">
+            <summary>
+            Used to register content
+            </summary>
+            <param name="contentId"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:HkmpPouch.Multipart.MultipartContentManager.GetContent(System.String)">
+            <summary>
+            Used to check if content is already available
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HkmpPouch.Multipart.MultipartContentManager.GetContentList">
+            <summary>
+            Get the list of content that is available
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HkmpPouch.PipeClient">
+            <summary>
+            A pipe to send and recieve data on the client side.
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.PipeClient.ModName">
+            <summary>
+            Name of the Pipe (typically one mod should only require one pipe)
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.PipeClient.ClientApi">
+            <summary>
+            Instance of Hkmp.Api.Client.IClientApi provided by HKMP
+            </summary>
+        </member>
+        <member name="E:HkmpPouch.PipeClient.OnReady">
+            <summary>
+            An event that fires when ClientApi is available
+            </summary>
+        </member>
+        <member name="E:HkmpPouch.PipeClient.OnRecieve">
+            <summary>
+            An event that fires when new data is recieved on the client
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.PipeClient.Logger">
+            <summary>
+            The Logger to use
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.#ctor(System.String)">
+            <summary>
+            Create a new PipeClient
+            </summary>
+            <param name="ModName">Name of the Mod creating the pipe that is used as a unique identifier for the mod</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.SendToPlayer(System.UInt16,System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Send an event to a single player
+            </summary>
+            <param name="PlayerId">Player Id of the recieving player</param>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="SameScene">Should the receiving player be in the same scene</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.SendToPlayer(System.UInt16,System.String,System.String,System.Byte[],System.Boolean,System.Boolean)">
+            <summary>
+            Send an event to a single player
+            </summary>
+            <param name="PlayerId">Player Id of the recieving player</param>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="ExtraBytes">Extra byte[] to send with the event</param>
+            <param name="SameScene">Should the receiving player be in the same scene</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.SendToPlayer(System.UInt16,HkmpPouch.PipeEvent,System.Boolean,System.Boolean)">
+            <summary>
+            Send an event to a single player
+            </summary>
+            <param name="PlayerId">Player Id of the recieving player</param>
+            <param name="pipeEvent">The pipeEvent to send</param>
+            <param name="SameScene">Should the receiving player be in the same scene</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.SendToServer(System.String,System.String,System.Byte[],System.Boolean)">
+            <summary>
+            Only send event to the server (presumably to be handled by a server side addon)
+            </summary>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="ExtraBytes">Extra byte[] to send with the event</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.SendToServer(HkmpPouch.PipeEvent,System.Boolean)">
+            <summary>
+            Only send event to the server (presumably to be handled by a server side addon)
+            </summary>
+            <param name="pipeEvent">The pipeEvent to send</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.Broadcast(System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Send an event to many players
+            </summary>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="SameScene">Should the receiving player be in the same scene</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.Broadcast(System.String,System.String,System.Byte[],System.Boolean,System.Boolean)">
+            <summary>
+            Send an event to many players
+            </summary>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="ExtraBytes">Extra byte[] to send with the event</param>
+            <param name="SameScene">Should the receiving player be in the same scene</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.Broadcast(HkmpPouch.PipeEvent,System.Boolean,System.Boolean)">
+            <summary>
+            Send an event to many players
+            </summary>
+            <param name="pipeEvent">The pipeEvent to send</param>
+            <param name="SameScene">Should the receiving player be in the same scene</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.BroadcastInScene(HkmpPouch.PipeEvent,System.String,System.Boolean)">
+            <summary>
+            Send Event to all the connected Players in a particular scene
+            </summary>
+            <param name="pipeEvent">The pipeEvent to send</param>
+            <param name="SceneName">Name of the scene to send the data in</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.BroadcastInScene(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Send Event to all the connected Players in a particular scene
+            </summary>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="SceneName">Name of the scene to send the data in</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.BroadcastInScene(System.String,System.String,System.String,System.Byte[],System.Boolean)">
+            <summary>
+            Send Event to all the connected Players in a particular scene
+            </summary>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="ExtraBytes">Extra byte[] to send with the event</param>
+            <param name="SceneName">Name of the scene to send the data in</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.ServerCounterPartAvailable(System.Action{System.Boolean})">
+            <summary>
+            Check if this Pipe has a server counter part installed on this server
+            </summary>
+            <param name="callback"> called with the boolean result</param>
+        </member>
+        <member name="M:HkmpPouch.PipeClient.Destroy">
+            <summary>
+            Destroy the pipe safely
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.PipeServer">
+            <summary>
+            A pipe to send and recieve data on the server side.
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.PipeServer.ModName">
+            <summary>
+            Name of the Pipe (typically one mod should only require one pipe)
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.PipeServer.ServerApi">
+            <summary>
+            Instance of Hkmp.Api.Server.IServerApi provided by HKMP
+            </summary>
+        </member>
+        <member name="E:HkmpPouch.PipeServer.OnRecieve">
+            <summary>
+            An event that fires when new data is recieved on the server
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.PipeServer.Logger">
+            <summary>
+            The Logger to use
+            </summary>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.#ctor(System.String)">
+            <summary>
+            Create a new PipeServer
+            </summary>
+            <param name="ModName">Name of the Mod creating the pipe that is used as a unique identifier for the mod</param>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.SendToPlayer(System.UInt16,System.String,System.String,System.Byte[],System.Boolean)">
+            <summary>
+            Send Event to a single Player
+            </summary>
+            <param name="ToPlayer">Player id to send the event to</param>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="ExtraBytes">Extra byte[] to send with the event</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.SendToPlayer(System.UInt16,HkmpPouch.PipeEvent,System.Boolean)">
+            <summary>
+            Send Event to a single Player
+            </summary>
+            <param name="ToPlayer">Player id to send the event to</param>
+            <param name="pipeEvent">The pipeEvent to send</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.Broadcast(HkmpPouch.PipeEvent,System.Boolean)">
+            <summary>
+            Send Event to all the connected Players
+            </summary>
+            <param name="pipeEvent">The pipeEvent to send</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.Broadcast(System.String,System.String,System.Byte[],System.Boolean)">
+            <summary>
+            Send Event to all the connected Players
+            </summary>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="ExtraBytes">Extra byte[] to send with the event</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.BroadcastInScene(System.String,System.String,System.String,System.Byte[],System.Boolean)">
+            <summary>
+            Send Event to all the connected Players in a particular scene
+            </summary>
+            <param name="EventName">Name of your custom event</param>
+            <param name="EventData">Corresponding event data</param>
+            <param name="ExtraBytes">Extra byte[] to send with the event</param>
+            <param name="SceneName">Name of the scene to send the data in</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.BroadcastInScene(HkmpPouch.PipeEvent,System.String,System.Boolean)">
+            <summary>
+            Send Event to all the connected Players in a particular scene
+            </summary>
+            <param name="pipeEvent">The pipeEvent to send</param>
+            <param name="SceneName">Name of the scene to send the data in</param>
+            <param name="IsReliable">Should the packed be resent if undelivered</param>
+        </member>
+        <member name="M:HkmpPouch.PipeServer.Destroy">
+            <summary>
+            Destroy the pipe safely
+            </summary>
+        </member>
+        <member name="T:HkmpPouch.ReceivedEventArgs">
+            <summary>
+            EventArgs that are used for PipeClient.OnRecieve and PipeServer.OnRecieve
+            </summary>
+        </member>
+        <member name="P:HkmpPouch.ReceivedEventArgs.Data">
+            <summary>
+            The received data
+            </summary>
+        </member>
+    </members>
+</doc>

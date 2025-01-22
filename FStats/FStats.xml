@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FStats</name>
+    </assembly>
+    <members>
+        <member name="E:FStats.API.OnGenerateScreen">
+            <summary>
+            Event invoked when FStats generates the end screen.
+            Subscribers may invoke the `registerPage` argument to add a page to
+            the end screen.
+            </summary>
+        </member>
+        <member name="E:FStats.API.OnGenerateFile">
+            <summary>
+            Event invoked when FStats generates the list of stat controllers at the start of a save file.
+            Subscribers may invoke the `registerStat` argument to add a stat controller to the file.
+            </summary>
+        </member>
+        <member name="E:FStats.API.OnBuildExtensionStats">
+            <summary>
+            Event invoked when FStats builds the extension stats screen - intended for
+            mods which want to add a small number of stats and do not mind their screen
+            being shared with other mods.
+            </summary>
+        </member>
+        <member name="E:FStats.API.DisplaySuppressor">
+            <summary>
+            This event will be applied to all screens; if any subscriber returns true
+            for a particular <see cref="T:FStats.DisplayInfo"/>, that screen will not be shown.
+            </summary>
+        </member>
+        <member name="M:FStats.API.RegisterGlobalStat``1">
+            <summary>
+            Register a Global StatController, to be loaded across all (new) save files.
+            
+            This function should be called during Mod.Initialize, or the stat controller might not be registered.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:FStats.AreaName.CleanSubareaName(System.String)">
+            <summary>
+            Given a scene, returns the area containing that scene. Areas are those considered by area rando, plus Godhome and White Palace.
+            </summary>
+            <param name="scene"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FStats.AreaName.CleanAreaName(System.String)">
+            <summary>
+            Given a scene, returns the map region containing that scene. Black Egg Temple, Godhome and White Palace are counted separately.
+            </summary>
+            <param name="scene"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FStats.Attributes.DefaultHiddenScreenAttribute">
+            <summary>
+            Any subclass of <see cref="T:FStats.StatController"/> with this attribute will not have the results 
+            of <see cref="M:FStats.StatController.GetDisplayInfos"/> shown on the ending screen unless
+            the user has manually set the value in the FStatsMod global settings to true.
+            </summary>
+        </member>
+        <member name="T:FStats.Attributes.GlobalSettingsExcludeAttribute">
+            <summary>
+            Any subclass of <see cref="T:FStats.StatController"/> with this attribute will be excluded from
+            the FStats Global Settings, and will always have <see cref="M:FStats.StatController.GetDisplayInfos"/>
+            called by FStats.
+            </summary>
+        </member>
+        <member name="T:FStats.Attributes.ScreenNameOverrideAttribute">
+            <summary>
+            If this attribute is applied to a class, then it will be treated as identical
+            to the provided type for the purposes of global settings exclusion.
+            </summary>
+        </member>
+        <member name="T:FStats.BuiltinScreenPriorityValues">
+            <summary>
+            Class holding the (constant) priority values of FStats' stat screens.
+            </summary>
+        </member>
+        <member name="P:FStats.DisplayInfo.Title">
+            <summary>
+            The title of the display. Must not be null or empty.
+            </summary>
+        </member>
+        <member name="P:FStats.DisplayInfo.MainStat">
+            <summary>
+            Text shown below the title. May be empty - will not be shown if so.
+            </summary>
+        </member>
+        <member name="P:FStats.DisplayInfo.StatColumns">
+            <summary>
+            The text in each column.
+            </summary>
+        </member>
+        <member name="P:FStats.DisplayInfo.Priority">
+            <summary>
+            Stat screens will be cycled in increasing order of priority.
+            </summary>
+        </member>
+        <member name="M:FStats.DisplayInfo.Clone">
+            <summary>
+            Creates and returns a shallow copy of this DisplayInfo object.
+            </summary>
+        </member>
+        <member name="T:FStats.EndScreen.NavigationManager">
+            <summary>
+            Class to manage the screens and navigation between them.
+            </summary>
+        </member>
+        <member name="T:FStats.EndScreen.EndScreenObjectHolder">
+            <summary>
+            Class to manage the objects on the end screen.
+            </summary>
+        </member>
+        <member name="M:FStats.EndScreen.EndScreenObjectHolder.Setup(GameCompletionScreen)">
+            <summary>
+            Given the unmodified game completion screen, move the objects around and
+            return an instance of this class with the references set.
+            </summary>
+        </member>
+        <member name="M:FStats.EndScreen.EndScreenObjectHolder.Display(FStats.DisplayInfo)">
+            <summary>
+            Given a DisplayInfo object, show it on the screen.
+            </summary>
+        </member>
+        <member name="T:FStats.EndScreen.SkipToEndScreen">
+            <summary>
+            Class containing a utility for skipping directly to the end screen.
+            This can only be modified through the API - it will not be made available through the FStats global settings.
+            
+            If the <see cref="M:FStats.EndScreen.SkipToEndScreen.Enable"/> function has ever been called, then: when entering Room_temple or Room_Final_Boss_Core,
+            while the key <see cref="P:FStats.EndScreen.SkipToEndScreen.EndScreenSkipKeyCode"/> is held, provided that the stat screen should display for that save file,
+            the game will skip directly to the stat screen.
+            </summary>
+        </member>
+        <member name="P:FStats.EndScreen.SkipToEndScreen.EndScreenSkipKeyCode">
+            <summary>
+            If this key is not held when entering black egg or thk's room, will not skip directly to the credits
+            </summary>
+        </member>
+        <member name="M:FStats.EndScreen.SkipToEndScreen.Enable">
+            <summary>
+            If this function has not been called, will not skip directly to the credits
+            </summary>
+        </member>
+        <member name="P:FStats.FStatsMod.InitializationState">
+            <summary>
+            During stat controller initialization, this will be set to true if it is a new game and false otherwise.
+            At other times this will be null.
+            </summary>
+        </member>
+        <member name="P:FStats.GlobalSettings.PreventSavingGlobalStats">
+            <summary>
+            This can be set to true in a game session to prevent global stats from being saved.
+            The intended use case would be that the player realised too late that they did not
+            want to upset their global stats.
+            </summary>
+        </member>
+        <member name="P:FStats.GlobalStats.GlobalStatManager.LoadedStatNames">
+            <summary>
+            The names of stats that are currently loaded.
+            null => stats haven't been loaded yet.
+            </summary>
+        </member>
+        <member name="P:FStats.GlobalStats.GlobalStatManager.TrackedStats">
+            <summary>
+            Dictionary (type full name) -> (stat controller of that type).
+            </summary>
+        </member>
+        <member name="T:FStats.GlobalStats.GlobalStatSerialization">
+            <summary>
+            Class to manage loading and unloading the global stat manager.
+            </summary>
+        </member>
+        <member name="T:FStats.Interfaces.IStatCollection">
+            <summary>
+            Common interface for the Local and Global settings types, which both hold 
+            </summary>
+        </member>
+        <member name="P:FStats.LocalSettings.InitializedOnNewGame">
+            <summary>
+            Whether these local settings saw the save file being created.
+            </summary>
+        </member>
+        <member name="P:FStats.LocalSettings.ActiveGlobalStats">
+            <summary>
+            The names of Global Stat Controllers associated with this save file.
+            </summary>
+        </member>
+        <member name="T:FStats.StatController">
+            <summary>
+            Object which will be loaded and unloaded by FStats when a save file is entered and exited.
+            
+            This can be either a local/save stat (associated with a single file) or a global stat
+            (will be loaded over multiple files). Initialize and GetDisplayInfos will be called on
+            local stats before global stats; Unload will be called on global stats before local
+            stats.
+            </summary>
+        </member>
+        <member name="M:FStats.StatController.Initialize">
+            <summary>
+            Run when entering the save file.
+            </summary>
+        </member>
+        <member name="M:FStats.StatController.Unload">
+            <summary>
+            Run when leaving the save file - `() => { Initialize(); Unload(); };` should be the identity.
+            </summary>
+        </member>
+        <member name="M:FStats.StatController.GetDisplayInfos">
+            <summary>
+            Yield a DisplayInfo object for each page that the StatController wants to display.
+            This method will be called if this instance is associated with the Local Settings.
+            </summary>
+        </member>
+        <member name="M:FStats.StatController.GetGlobalDisplayInfos">
+            <summary>
+            Yield a DisplayInfo object for each page that the StatController wants to display.
+            This method will be called if this instance is associated with the Global Settings.
+            </summary>
+        </member>
+        <member name="P:FStats.StatController.FileCount">
+            <summary>
+            The number of save files this StatController has been initialized with.
+            This quantity will be positive if and only if this is associated with the GlobalSettings.
+            </summary>
+        </member>
+        <member name="M:FStats.StatController.GetOwningCollection">
+            <summary>
+            Get the collection of stats this is a part of - global stats if this is global,
+            save stats otherwise.
+            </summary>
+        </member>
+        <member name="T:FStats.StatControllers.Common">
+            <summary>
+            Contains things that will be useful for multiple stat controllers
+            </summary>
+        </member>
+        <member name="M:FStats.StatControllers.Common.GetTimePercentString(System.Single,System.String)">
+            <summary>
+            Get a string representing t as a proportion of the total time
+            </summary>
+        </member>
+        <member name="M:FStats.StatControllers.Common.GetTimePercentString(System.Single)">
+            <summary>
+            Get a string representing t as a proportion of the total time
+            </summary>
+        </member>
+        <member name="T:FStats.StatControllers.HeroActionStats">
+            <summary>
+            Collects stats for both the Hero Actions screen and the Directional Stats screen
+            </summary>
+        </member>
+        <member name="T:FStats.StatControllers.ModConditional.BenchwarpExtensions">
+            <summary>
+            Factor out NameForBench method into a separate class to prevent serialization issues when Benchwarp is not installed.
+            </summary>
+        </member>
+        <member name="T:FStats.StatControllers.ModConditional.ICChecksDisplay">
+            <summary>
+            Number of checks obtained per area
+            </summary>
+        </member>
+        <member name="P:FStats.StatControllers.ModConditional.ICChecksDisplay.EndScreenReached">
+            <summary>
+            Only assigned in a local stat controller.
+            </summary>
+        </member>
+        <member name="P:FStats.StatControllers.ModConditional.ICChecksDisplay.ObtainedByScene">
+            <summary>
+            The total number of items obtained by scene, excluding the current file.
+            </summary>
+        </member>
+        <member name="P:FStats.StatControllers.ModConditional.ICChecksDisplay.TotalByScene">
+            <summary>
+            The total number of items placed by scene, excluding the current file.
+            </summary>
+        </member>
+        <member name="M:FStats.StatControllers.ModConditional.ICChecksDisplay.GatherData(System.Collections.Generic.Dictionary{System.String,System.Int32}@,System.Collections.Generic.Dictionary{System.String,System.Int32}@)">
+            <summary>
+            Gather the relevant data about the current ItemChanger save file.
+            </summary>
+            <param name="obtained">Dictionary scene -> obtained items in that scene.</param>
+            <param name="total">Dictionary scene -> placed items in that scene.</param>
+        </member>
+        <member name="P:FStats.StatControllers.ModConditional.ItemSyncData.ObtainedByScene">
+            <summary>
+            The total number of items obtained locally by scene, excluding the current file.
+            </summary>
+        </member>
+        <member name="P:FStats.StatControllers.ModConditional.ItemSyncData.TotalByScene">
+            <summary>
+            The total number of items obtained by scene, excluding the current file.
+            </summary>
+        </member>
+        <member name="M:FStats.StatControllers.ModConditional.ItemSyncData.GatherData(System.Collections.Generic.Dictionary{System.String,System.Int32}@,System.Collections.Generic.Dictionary{System.String,System.Int32}@)">
+            <summary>
+            Gather the relevant data about the current ItemChanger save file.
+            It is safe to call this method even if ItemSync is not installed.
+            </summary>
+            <param name="obtained">Dictionary scene -> number of items obtained locally in that scene.</param>
+            <param name="total">Dictionary scene -> number of items obtained in that scene.</param>
+            <returns>True if this looks like an ItemSync file.
+            The obtained and total arguments will be properly assigned regardless of the return value.</returns>
+        </member>
+        <member name="T:FStats.StatControllers.ModConditional.ModConditionalDisplay">
+            <summary>
+            Base class for displays that depend on mod(s) to be installed, and will not generate a screen
+            without the other mod(s).
+            Code in <see cref="M:FStats.StatControllers.ModConditional.ModConditionalDisplay.OnInitialize"/>, <see cref="M:FStats.StatControllers.ModConditional.ModConditionalDisplay.OnUnload"/> and <see cref="M:FStats.StatControllers.ModConditional.ModConditionalDisplay.ConditionalGetDisplayInfos"/>
+            can safely require the mods to be installed.
+            </summary>
+        </member>
+        <member name="M:FStats.StatControllers.SkillTimeline.RegisterNamedBool(System.String,System.String)">
+            <summary>
+            Register a player data bool to be tracked by the skill timeline. 
+            When that bool becomes true for the first time, the skill timeline 
+            will record it as having been obtained.
+            
+            Example: RegisterNamedBool(nameof(PlayerData.hasSuperDash), "Crystal Heart");
+            </summary>
+            <param name="pdName">The name of the pd value to record.</param>
+            <param name="displayName">The text to display on the timeline.</param>
+        </member>
+        <member name="M:FStats.StatControllers.SkillTimeline.RegisterNamedInt(System.String,System.Int32,System.String)">
+            <summary>
+            Register a player data int to be tracked by the skill timeline.
+            When that int becomes equal to the given value for the first time, the skill
+            timeline will record it as having been obtained.
+            
+            Example: RegisterNamedInt(nameof(PlayerData.quakeLevel), 1, "Desolate Dive");
+            </summary>
+            <param name="pdName">The name of the pd value to record.</param>
+            <param name="value">The value at which the pd should be to record.</param>
+            <param name="displayName">The text to display on the timeline.</param>
+        </member>
+        <member name="M:FStats.StatControllers.SkillTimeline.RegisterExclusion(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Register a player data value to be suppressed if other pd values are present.
+            
+            For example, if left and right claw are present, then the full mantis claw (which is obtained
+            when both claw sides have been obtained) should be ignored.
+            
+            In all cases, $"{pdName}/{value}" should be used to represent a pd int reaching a certain value.
+            
+            Example: RegisterExclusion(nameof(PlayerData.hasWalljump), new(){"hasWalljumpLeft", "hasWalljumpRight"});
+            </summary>
+            <param name="pdName">The name of the pd value to suppress.</param>
+            <param name="exclusions">If any of these are present, then the original pd value will be suppressed.</param>
+        </member>
+        <member name="P:FStats.StatControllers.TimeByAreaStat.AreaOrder">
+            <summary>
+            The order the areas are displayed on the Time by Area screen.
+            </summary>
+        </member>
+        <member name="T:FStats.Util.ColumnUtility">
+            <summary>
+            Class containing convenience methods to organise stat entries into columns.
+            </summary>
+        </member>
+        <member name="M:FStats.Util.ColumnUtility.CreateDisplay(FStats.DisplayInfo,System.Collections.Generic.List{System.String},System.Int32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Given a list of entries, group them to make a stat page.
+            </summary>
+            <param name="template">A display info with all fields set except for the StatColumns field.</param>
+            <param name="entries">The entries to display.</param>
+            <param name="maxEntriesPerColumn">The maximum number of entries per column.</param>
+            <param name="maxColumnsPerPage">The maximum number of columns per page.</param>
+            <param name="singlePage">If this is true, will only return a single page.
+            If there are too many entries, the last line of the central column will be replaced with an ellipsis.</param>
+            <param name="showPageNumbers">If this is true and there are at least two pages, will add (n/m) to the end
+            of the title for each page, where m is the number of pages and n is the (1-indexed) page number.</param>
+            <returns>An iterable with DisplayInfos.</returns>
+        </member>
+        <member name="M:FStats.Util.ColumnUtility.DistributeColumns``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Split the listed entries into columns.
+            </summary>
+            <param name="entries">The entries to display.</param>
+            <param name="maxEntriesPerColumn">The maximum number of entries per column.</param>
+            <returns>An iterator over columns represented as a list of strings.</returns>
+        </member>
+        <member name="M:FStats.Util.ColumnUtility.DistributePages``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Int32)">
+            <summary>
+            Split the listed entries into pages.
+            </summary>
+            <param name="entries">The entries to display.</param>
+            <param name="maxEntriesPerColumn">The maximum number of entries per column.</param>
+            <param name="maxColumnsPerPage">The maximum number of columns per page.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FStats.Util.Extensions.CycleTo``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Return an enumerable with elements moved to the end of the input until the first element 
+            matching the selector is reached.
+            If none of the elements match the selector, return a copy of the original.
+            </summary>
+        </member>
+        <member name="M:FStats.Util.Extensions.GroupSegments``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Given an IEnumerable of objects, groups them in blocks of length `count` and yields them.
+            (The last block may have length less than `count`).
+            </summary>
+        </member>
+        <member name="M:FStats.Util.Extensions.Add``1(System.Collections.Generic.Dictionary{``0,System.Int32},System.Collections.Generic.Dictionary{``0,System.Int32})">
+            <summary>
+            Increase the values in the dictionary according to another dictionary.
+            </summary>
+            <param name="self">The dictionary that is modified in-place.</param>
+            <param name="other">The dictionary of increments; this is not modified.</param>
+        </member>
+        <member name="M:FStats.Util.Extensions.Subtract``1(System.Collections.Generic.Dictionary{``0,System.Int32},System.Collections.Generic.Dictionary{``0,System.Int32})">
+            <summary>
+            Reduce the values in the dictionary according to another dictionary.
+            </summary>
+            <param name="self">The dictionary that is modified in-place.</param>
+            <param name="other">The dictionary of increments; this is not modified.</param>
+        </member>
+        <member name="M:FStats.Util.Extensions.Add``1(System.Collections.Generic.Dictionary{``0,System.Single},System.Collections.Generic.Dictionary{``0,System.Single})">
+            <summary>
+            Increase the values in the dictionary according to another dictionary.
+            </summary>
+            <param name="self">The dictionary that is modified in-place.</param>
+            <param name="other">The dictionary of increments; this is not modified.</param>
+        </member>
+        <member name="M:FStats.Util.Extensions.Subtract``1(System.Collections.Generic.Dictionary{``0,System.Single},System.Collections.Generic.Dictionary{``0,System.Single})">
+            <summary>
+            Reduce the values in the dictionary according to another dictionary.
+            </summary>
+            <param name="self">The dictionary that is modified in-place.</param>
+            <param name="other">The dictionary of increments; this is not modified.</param>
+        </member>
+    </members>
+</doc>

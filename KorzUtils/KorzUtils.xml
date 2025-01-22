@@ -1,0 +1,624 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KorzUtils</name>
+    </assembly>
+    <members>
+        <member name="T:KorzUtils.Data.FsmTransitionData">
+            <summary>
+            Represents data for creating transitions between fsm states.
+            </summary>
+        </member>
+        <member name="P:KorzUtils.Data.FsmTransitionData.EventName">
+            <summary>
+            Gets or sets the event that should be used
+            </summary>
+        </member>
+        <member name="P:KorzUtils.Data.FsmTransitionData.TargetState">
+            <summary>
+            Gets or sets the target state to which the fsm should transition to, when the event <see cref="P:KorzUtils.Data.FsmTransitionData.EventName"/> is fired.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Data.FsmTransitionData.FromTargetState(System.String)">
+            <summary>
+            Creates new transition data from the target state.
+            </summary>
+        </member>
+        <member name="T:KorzUtils.Data.GenericFsmStateAction">
+            <summary>
+            Represents a simple state action for a fsm that executes a method
+            </summary>
+        </member>
+        <member name="P:KorzUtils.Data.GenericFsmStateAction.ToExecute">
+            <summary>
+            Gets or sets the action that should be executed upon entering the state action.
+            </summary>
+        </member>
+        <member name="T:KorzUtils.Data.InternalExtensions">
+            <summary>
+            Provides extensions for objects of this library.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Data.InternalExtensions.WithTargetState(KorzUtils.Data.FsmTransitionData,System.String)">
+            <summary>
+            Extends the <see cref="T:KorzUtils.Data.FsmTransitionData"/> with a target state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Data.InternalExtensions.WithEventName(KorzUtils.Data.FsmTransitionData,System.String)">
+            <summary>
+            Extends the <see cref="T:KorzUtils.Data.FsmTransitionData"/> with an event name.
+            </summary>
+        </member>
+        <member name="T:KorzUtils.Enums.CharmRef">
+            <summary>
+            Contains a list of all charms available in the vanilla game and their internal id.
+            <para>The id does not match for charms with multiple stages!</para>
+            </summary>
+        </member>
+        <member name="T:KorzUtils.Helper.CharmHelper">
+            <summary>
+            Offers various functions regarding charms.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.AddCustomCharm(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Adds a custom charm to the internal charm list so the charm helper can process it.
+            </summary>
+            <param name="charmName"></param>
+            <param name="id"></param>
+            <param name="overwrite">If <see langword="true"/> the id will be overwritten if the charm name already exists.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.RemoveCustomCharm(System.String)">
+            <summary>
+            Adds a custom charm to the internal charm list so the charm helper can process it.
+            </summary>
+            <param name="charmName">The name of the custom charm to remove.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.GetCustomCharmName(System.Int32)">
+            <summary>
+            Gets the name of a custom charm from an id.
+            </summary>
+            <param name="id">The id of the charm which should be searched for</param>
+            <returns></returns>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.GetCustomCharmId(System.String)">
+            <summary>
+            Gets the id of a custom charm name.
+            </summary>
+            <param name="charmName">The name of the charm which should be searched for.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.HasCharm(KorzUtils.Enums.CharmRef,System.Boolean)">
+            <summary>
+            Checks if the player has acquired the charm.
+            </summary>
+            <param name="charm">The charm which should be checked.</param>
+            <param name="forceLevel">If <see langword="true"/> multiple stage charms (like Grimmchild) are only considered if the player has the exact level. Otherwise higher stages are also return true.
+            <para>Only works on vanilla charms</para></param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.HasCharm(System.String,System.Boolean)">
+            <summary>
+            Checks if the player has acquired the charm.
+            </summary>
+            <param name="charmName">The name of the charm which should be checked.</param>
+            <param name="forceLevel">If <see langword="true"/> multiple stage charms (like Grimmchild) are only considered if the player has the exact level. Otherwise higher stages are also return true.
+            <para>Only works on vanilla charms</para></param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.EquippedCharm(KorzUtils.Enums.CharmRef,System.Boolean)">
+            <summary>
+            Checks if the player has equipped the charm.
+            </summary>
+            <param name="charm">The charm which should be checked.</param>
+            <param name="forceLevel">If <see langword="true"/> multiple stage charms (like Grimmchild) are only considered if the player has the exact level. Otherwise higher stages are also return true.
+            <para>Only works on vanilla charms</para></param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.EquippedCharm(System.String,System.Boolean)">
+            <summary>
+            Checks if the player has equipped the charm.
+            </summary>
+            <param name="charmName">The name of the charm which should be checked.</param>
+            <param name="forceLevel">If <see langword="true"/> multiple stage charms (like Grimmchild) are only considered if the player has the exact level. Otherwise higher stages are also return true.
+            <para>Only works on vanilla charms</para></param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.EquipCharm(KorzUtils.Enums.CharmRef,System.Boolean)">
+            <summary>
+            Equips the given charm and forces a charm update. (May not update the UI if overcharmed in the process)
+            </summary>
+            <param name="charm">The charm to equip.</param>
+            <param name="toggle">If the charm is already equipped, setting this to true will unequip the charm instead.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.EquipCharm(System.String,System.Boolean)">
+            <summary>
+            Equips the given charm and forces a charm update. (May not update the UI if overcharmed in the process)
+            </summary>
+            <param name="charmName">The name of the charm to equip.</param>
+            <param name="toggle">If the charm is already equipped, setting this to true will unequip the charm instead.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.UnequipCharm(KorzUtils.Enums.CharmRef,System.Boolean)">
+            <summary>
+            Unequips the given charm and forces a charm update. (May not update the UI if overcharmed in the process)
+            </summary>
+            <param name="charm">The charm to unequip.</param>
+            <param name="toggle">If the charm is not equipped already, setting this to true will equip the charm instead.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.UnequipCharm(System.String,System.Boolean)">
+            <summary>
+            Unequips the given charm and forces a charm update. (May not update the UI if overcharmed in the process)
+            </summary>
+            <param name="charmName">The name of the charm to unequip.</param>
+            <param name="toggle">If the charm is not equipped already, setting this to true will equip the charm instead.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.GetCharmCost(KorzUtils.Enums.CharmRef)">
+            <summary>
+            Gets the current notch cost of a charm.
+            </summary>
+            <param name="charm">The charm which costs should be fetched.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.GetCharmCost(System.String)">
+            <summary>
+            Gets the current notch cost of a charm.
+            </summary>
+            <param name="charmName">The name of the charm which costs should be fetched.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.SetCharmCost(KorzUtils.Enums.CharmRef,System.Int32)">
+            <summary>
+            Sets the cost of a charm and forces a charm updated. (May not update the overcharm UI)
+            </summary>
+            <param name="charm">The charm which cost should be set.</param>
+            <param name="cost">The cost the charm should have.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.SetCharmCost(System.String,System.Int32)">
+            <summary>
+            Sets the cost of a charm and forces a charm updated. (May not update the overcharm UI)
+            </summary>
+            <param name="charmName">The name of the charm which cost should be set.</param>
+            <param name="cost">The cost the charm should have.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CharmHelper.Normalize(KorzUtils.Enums.CharmRef)">
+            <summary>
+            Normalizes a charm with stages to it's default level.
+            </summary>
+            <param name="charm"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KorzUtils.Helper.CoroutineHelper">
+            <summary>
+            Provides useful function for working with coroutines.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitFrames(System.Action,System.Int32)">
+            <summary>
+            Wraps an action to be executed after a frame delay.
+            </summary>
+            <param name="action">The action to be executed.</param>
+            <param name="framesToWait">The amount of frames that should be waited before the action is executed.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitFrames``1(System.Action{``0},``0,System.Int32)">
+            <summary>
+            Wraps an action to be executed after a frame delay.
+            </summary>
+            <param name="action">The action to be executed.</param>
+            <param name="value">The value that should be passed to the action.</param>
+            <param name="framesToWait">The amount of frames that should be waited before the action is executed.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitFrames(System.Action,System.Boolean,System.Int32)">
+            <summary>
+            Wraps an action to be executed after a frame delay on an independed behaviour. The created GameObject is disposed afterwards.
+            </summary>
+            <param name="action">The action to be executed.</param>
+            <param name="persistentBetweenScenes">If <see langword="true"/>, the object on which the coroutine is executed will not be interrupted by a scene transition.</param>
+            <param name="framesToWait">The amount of frames that should be waited before the action is executed.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitFrames``1(System.Action{``0},``0,System.Boolean,System.Int32)">
+            <summary>
+            Wraps an action to be executed after a frame delay on an independed behaviour. The created GameObject is disposed afterwards.
+            </summary>
+            <param name="action">The action to be executed.</param>
+            <param name="value">The value that should be passed to the action.</param>
+            <param name="persistentBetweenScenes">If <see langword="true"/>, the object on which the coroutine is executed will not be interrupted by a scene transition.</param>
+            <param name="framesToWait">The amount of frames that should be waited before the action is executed.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitForHero(System.Action)">
+            <summary>
+            Executes an action after the player has regained control.
+            </summary>
+            <param name="action">The action to executed after the player has regained control.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitForHero(System.Action,System.Boolean)">
+            <summary>
+            Executes an action after the player has regained control.
+            </summary>
+            <param name="action">The action to executed after the player has regained control.</param>
+            <param name="persistentBetweenScenes"></param>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitForHero``1(System.Action{``0},``0)">
+            <summary>
+            Executes an action after the player has regained control.
+            </summary>
+            <param name="action">The action to executed after the player has regained control.</param>
+            <param name="value"></param>
+        </member>
+        <member name="M:KorzUtils.Helper.CoroutineHelper.WaitForHero``1(System.Action{``0},``0,System.Boolean)">
+            <summary>
+            Executes an action after the player has regained control.
+            </summary>
+            <param name="action">The action to executed after the player has regained control.</param>
+            <param name="value"></param>
+            <param name="persistentBetweenScenes"></param>
+        </member>
+        <member name="T:KorzUtils.Helper.FsmHelper">
+            <summary>
+            Provides function and extensions for fsm.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.IsCorrectContext(HutongGames.PlayMaker.FsmStateAction,System.String,System.String,System.String)">
+            <summary>
+            Check if the passed action is in the correct context for modifications. Leave unneeded values null.
+            </summary>
+            <param name="fsmName">The fsm in which the action should be.</param>
+            <param name="gameObjectName">The name of the gameobject on which the fsm of this action is attached.</param>
+            <param name="stateName">The name of the state in which this action should be.</param>
+            <param name="action">The action for the comparison.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.WrapAction(System.Action)">
+            <summary>
+            Wraps an action so it can be used as a fsm state action.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddActions(HutongGames.PlayMaker.FsmState,HutongGames.PlayMaker.FsmStateAction[])">
+            <summary>
+            Adds actions to a fsm state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddActions(HutongGames.PlayMaker.FsmState,System.Collections.Generic.IEnumerable{HutongGames.PlayMaker.FsmStateAction})">
+            <summary>
+            Adds actions to a fsm state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddActions(HutongGames.PlayMaker.FsmState,System.Action[])">
+            <summary>
+            Adds actions to a fsm state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddActions(HutongGames.PlayMaker.FsmState,System.Collections.Generic.IEnumerable{System.Action})">
+            <summary>
+            Adds actions to a fsm state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveAllActions(HutongGames.PlayMaker.FsmState)">
+            <summary>
+            Removes all actions from a state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveActions``1(HutongGames.PlayMaker.FsmState)">
+            <summary>
+            Removes all actions of the passed type.
+            </summary>
+            <typeparam name="T">The type of actions that should be removed.</typeparam>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveFirstAction``1(HutongGames.PlayMaker.FsmState)">
+            <summary>
+            Removes the first appearance of an action
+            </summary>
+            <typeparam name="T">The type of actions that should be removed.</typeparam>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveLastAction``1(HutongGames.PlayMaker.FsmState)">
+            <summary>
+            Removes the last appearance of an action
+            </summary>
+            <typeparam name="T">The type of actions that should be removed.</typeparam>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveActions(HutongGames.PlayMaker.FsmState,System.Int32[])">
+            <summary>
+            Removes all actions at the passed indexes.
+            </summary>
+            <param name="indexToRemove">The indexes of the actions that should be removed.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveActions``1(HutongGames.PlayMaker.FsmState,System.Int32[])">
+            <summary>
+            Removes all appearances of an action that appear in the passed list.
+            </summary>
+            <typeparam name="T">The type of actions that should be removed.</typeparam>
+            <param name="indexToRemove">The indexes of the ACTION TYPE that should be removed. 
+            This does not have to match the actual index of the actions in the state!</param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.InsertActions(HutongGames.PlayMaker.FsmState,System.Int32,System.Action[])">
+            <summary>
+            Inserts the actions after the given index.
+            <para>It is recommended to either create your own state that copies the needed actions 
+            or just hook the actions via On.HutongGames.PlayMaker.Actions.*YourActionType*.OnEnter instead!</para>
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.InsertActions(HutongGames.PlayMaker.FsmState,System.Int32,System.Collections.Generic.IEnumerable{System.Action})">
+            <summary>
+            Inserts the actions after the given index.
+            <para>It is recommended to either create your own state that copies the needed actions 
+            or just hook the actions via On.HutongGames.PlayMaker.Actions.*YourActionType*.OnEnter instead!</para>
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.InsertActions(HutongGames.PlayMaker.FsmState,System.Int32,HutongGames.PlayMaker.FsmStateAction[])">
+            <summary>
+            Inserts the actions after the given index.
+            <para>It is recommended to either create your own state that copies the needed actions 
+            or just hook the actions via On.HutongGames.PlayMaker.Actions.*YourActionType*.OnEnter instead!</para>
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.InsertActions(HutongGames.PlayMaker.FsmState,System.Int32,System.Collections.Generic.IEnumerable{HutongGames.PlayMaker.FsmStateAction})">
+            <summary>
+            Inserts the actions after the given index.
+            <para>It is recommended to either create your own state that copies the needed actions 
+            or just hook the actions via On.HutongGames.PlayMaker.Actions.*YourActionType*.OnEnter instead!</para>
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.ReplaceAction(HutongGames.PlayMaker.FsmState,System.Int32,System.Action)">
+            <summary>
+            Replaces the action at the index position with a wrapped action.
+            </summary>
+            <param name="index">The index at which the action should be inserted and the original deleted.</param>
+            <param name="action">The action that should be wrapped for a state action.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.ReplaceAction(HutongGames.PlayMaker.FsmState,System.Int32,HutongGames.PlayMaker.FsmStateAction)">
+            <summary>
+            Replaces the action at the index position.
+            </summary>
+            <param name="index">The index at which the action should be inserted and the original deleted.</param>
+            <param name="action">Thee action that should replace the original one.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddTransition(HutongGames.PlayMaker.FsmState,System.String,System.String)">
+            <summary>
+            Adds a transition to a state. If the event doesn't exist already in the fsm, it will be added.
+            If the state already has the transition, it will be adjusted.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveTransitions(HutongGames.PlayMaker.FsmState,System.String[])">
+            <summary>
+            Removes all transitions corresponding to the passed events.
+            </summary>
+            <param name="eventNames">The events/transitions to remove.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.RemoveTransitions(HutongGames.PlayMaker.FsmState,KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Removes all matching transition by their name and event.
+            </summary>
+            <param name="state"></param>
+            <param name="transitionData"></param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AdjustTransition(HutongGames.PlayMaker.FsmState,System.String,System.String)">
+            <summary>
+            Move a transition from one state to another.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AdjustTransition(HutongGames.PlayMaker.FsmState,System.Collections.Generic.IEnumerable{KorzUtils.Data.FsmTransitionData})">
+            <summary>
+            Move transitions from one state to another.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AdjustTransition(HutongGames.PlayMaker.FsmState,KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Move transitions from one state to another.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AdjustTransitions(HutongGames.PlayMaker.FsmState,System.String)">
+            <summary>
+            Adjust every transition from the current state to the target state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.ClearTransitions(HutongGames.PlayMaker.FsmState)">
+            <summary>
+            Remove all transitions from a state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.GetTransitions(HutongGames.PlayMaker.FsmState)">
+            <summary>
+            Gets all transitions that START at this state.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.GetState(PlayMakerFSM,System.String)">
+            <summary>
+            Gets a state present in a fsm or <see langword="null"/> if it doesn't exist.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(PlayMakerFSM,System.String,System.Action,KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm with a single custom action.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(PlayMakerFSM,System.String,System.Collections.Generic.IEnumerable{System.Action},KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(PlayMakerFSM,System.String,System.Collections.Generic.IEnumerable{HutongGames.PlayMaker.FsmStateAction},KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm with a set of state actions.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(PlayMakerFSM,HutongGames.PlayMaker.FsmState,KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddEvent(PlayMakerFSM,System.String)">
+            <summary>
+            Adds a new event to the fsm. If the event already exist, this will do nothing.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddVariable``1(PlayMakerFSM,System.String,``0)">
+            <summary>
+            Adds a variable to the fsm.
+            </summary>
+            <param name="variableName">The name the variable should have.</param>
+            <param name="value">The value the variable should have.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.GetState(HutongGames.PlayMaker.Fsm,System.String)">
+            <summary>
+            Gets a state present in a fsm or <see langword="null"/> if it doesn't exist.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(HutongGames.PlayMaker.Fsm,System.String,System.Action,KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm with a single custom action.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(HutongGames.PlayMaker.Fsm,System.String,System.Collections.Generic.IEnumerable{System.Action},KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(HutongGames.PlayMaker.Fsm,System.String,System.Collections.Generic.IEnumerable{HutongGames.PlayMaker.FsmStateAction},KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm with a set of state actions.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddState(HutongGames.PlayMaker.Fsm,HutongGames.PlayMaker.FsmState,KorzUtils.Data.FsmTransitionData[])">
+            <summary>
+            Tries to add a state to the fsm.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.FsmHelper.AddEvent(HutongGames.PlayMaker.Fsm,System.String)">
+            <summary>
+            Adds a new event to the fsm. If the event already exist, this will do nothing.
+            </summary>
+        </member>
+        <member name="T:KorzUtils.Helper.GameHelper">
+            <summary>
+            Provides functions for some more generic ingame behaviour
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.GameHelper.DisplayMessage(System.String)">
+            <summary>
+            Displays a message in the dream nail dialogue box used for enemy hits.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:KorzUtils.Helper.HeroHelper">
+            <summary>
+            Stores various references from the HeroController.
+            </summary>
+        </member>
+        <member name="P:KorzUtils.Helper.HeroHelper.RigidBody">
+            <summary>
+            Gets the rigidbody of the hero.
+            </summary>
+        </member>
+        <member name="P:KorzUtils.Helper.HeroHelper.NailAttacks">
+            <summary>
+            Gets the normal nail attack objects.
+            </summary>
+        </member>
+        <member name="P:KorzUtils.Helper.HeroHelper.NailArts">
+            <summary>
+            Gets the nail art objects.
+            </summary>
+        </member>
+        <member name="P:KorzUtils.Helper.HeroHelper.Collider">
+            <summary>
+            Gets the collider of the hero.
+            </summary>
+        </member>
+        <member name="T:KorzUtils.Helper.ItemHelper">
+            <summary>
+            Provides functions regarding item changer items.
+            <para>ItemChanger is not a dependency of this mod but required to use this, keep that in mind.</para>
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.ItemHelper.SpawnShiny(UnityEngine.Vector3,ItemChanger.AbstractPlacement)">
+            <summary>
+            Spawns a shiny at the passed position which contains the content of the placement.
+            </summary>
+            <param name="position"></param>
+            <param name="placement"></param>
+        </member>
+        <member name="M:KorzUtils.Helper.ItemHelper.SpawnShiny(UnityEngine.Vector3,ItemChanger.AbstractPlacement,System.Collections.Generic.IEnumerable{ItemChanger.AbstractItem})">
+            <summary>
+            Spawns a shiny at the passed position which contains the content of the placement.
+            </summary>
+            <param name="position"></param>
+            <param name="placement"></param>
+            <param name="items"></param>
+        </member>
+        <member name="M:KorzUtils.Helper.ItemHelper.FlingShiny(UnityEngine.GameObject,ItemChanger.AbstractPlacement)">
+            <summary>
+            Flings a shiny created from a placement.
+            </summary>
+            <param name="gameObject"></param>
+            <param name="placement"></param>
+        </member>
+        <member name="M:KorzUtils.Helper.ItemHelper.FlingShiny(UnityEngine.GameObject,ItemChanger.AbstractPlacement,System.Collections.Generic.IEnumerable{ItemChanger.AbstractItem})">
+            <summary>
+            Flings a shiny created from a placement.
+            </summary>
+            <param name="gameObject"></param>
+            <param name="placement"></param>
+            <param name="items"></param>
+        </member>
+        <member name="T:KorzUtils.Helper.LogHelper">
+            <summary>
+            Provides useful functions regarding logging.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.LogHelper.Write(System.String,KorzUtils.Enums.LogType,System.Boolean)">
+            <summary>
+            Writes a quick message in the modlog.
+            </summary>
+            <param name="message">The message that should be written.</param>
+            <param name="logType">The type of log message</param>
+            <param name="includeScene">If <see langword="true"/>, the current scene is prepended.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.LogHelper.Write(System.String,System.Exception,System.Boolean)">
+            <summary>
+            Writes a quick message with an exception in the modlog.
+            </summary>
+            <param name="message">The message that should be written.</param>
+            <param name="exception">The exception to log</param>
+            <param name="includeScene">If <see langword="true"/>, the current scene is prepended.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.LogHelper.Write``1(System.String,KorzUtils.Enums.LogType,System.Boolean)">
+            <summary>
+            Creates a log entry in the modlog.
+            </summary>
+            <typeparam name="T">The mod which name should be included in the log.</typeparam>
+            <param name="message">The message that should be written.</param>
+            <param name="logType">The type of log message</param>
+            <param name="includeScene">If <see langword="true"/>, the current scene is prepended.</param>
+        </member>
+        <member name="M:KorzUtils.Helper.LogHelper.Write``1(System.String,System.Exception,System.Boolean)">
+            <summary>
+            Creates a log error entry in the modlog.
+            </summary>
+            <typeparam name="T">The mod which name should be included in the log.</typeparam>
+            <param name="message">The message that should be written.</param>
+            <param name="error">The error that should be thrown</param>
+            <param name="includeScene">If <see langword="true"/>, the current scene is prepended.</param>
+        </member>
+        <member name="T:KorzUtils.Helper.PDHelper">
+            <summary>
+            Provides easier access to player data fields while giving other mods still opportunities to modify the result.
+            </summary>
+        </member>
+        <member name="T:KorzUtils.Helper.ResourceHelper">
+            <summary>
+            Provides useful functions around resources.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.ResourceHelper.LoadResource``1(System.String)">
+            <summary>
+            Loads a file from the resource path.
+            <para>Make sure to dispose the stream afterwards!</para>
+            </summary>
+            <param name="fileName">The name (and additional path) of the file. Starts in the resource folder. Format is [ModName].Resources.<paramref name="fileName"/>
+            <para>Use "." to seperate directories instead of "/"</para>.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:KorzUtils.Helper.ResourceHelper.LoadJsonResource``2(System.String)" -->
+        <member name="T:KorzUtils.Helper.SpriteHelper">
+            <summary>
+            Provides useful function regarding sprites.
+            </summary>
+        </member>
+        <member name="M:KorzUtils.Helper.SpriteHelper.CreateSprite``1(System.String,System.String)">
+            <summary>
+            Creates a sprite from the given image path. Starts in the Resource folder.
+            <para>All "/" and "\" will be replaced with "."</para>
+            </summary>
+        </member>
+    </members>
+</doc>
